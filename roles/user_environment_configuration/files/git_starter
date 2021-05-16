@@ -253,6 +253,14 @@ main() {
     $cmd git config alias.commitgraph 'log --graph --oneline --decorate --all'
     $cmd git config alias.commitinfo 'log -p'
     $cmd git config alias.onelinelog 'log --oneline'
+    $cmd git config alias.unstage 'reset HEAD --'
+    $cmd git config alias.add-modified '!git add `git ls-files -m --exclude-standard`'
+    $cmd git config alias.add-untracked '!git add `git ls-files -o --exclude-standard`'
+    $cmd git config alias.add '!git add `git ls-files -m -o --exclude-standard`'
+
+    # Configure miscellaneous settings
+    log "\n-> Configuring white space settings"
+    $cmd git config core.whitespace -blank-at-eof
     echo
 }
 

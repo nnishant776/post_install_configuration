@@ -17,4 +17,5 @@ common_package_list:
   - feh
   - meld
   - gitk
+  - make
 
