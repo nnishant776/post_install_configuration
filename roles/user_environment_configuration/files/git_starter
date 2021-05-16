@@ -1,0 +1,260 @@
+#!/usr/bin/env sh
+argc=$#
+
+username=
+email=
+difftool=
+mergetool=
+gpgSigningKey=
+verbose=
+dry_run=
+global_default_branch=
+local_default_branch=
+help=
+force_init=
+
+log() {
+    if [ ! -z $verbose ];then
+        echo -e "$@"
+    fi
+}
+
+debug() {
+    echo "username=$username"
+    echo "email=$email"
+    echo "difftool=$difftool"
+    echo "mergetool=$mergetool"
+    echo "gpgSigningKey=$gpgSigningKey"
+    echo "verbose=$verbose"
+    echo "dry_run=$dry_run"
+}
+
+usage() {
+    printf "Usage : `basename $0` [-u USERNAME] [-e EMAIL] [options]
+
+    Options:
+
+    -u, --username USERNAME
+    \tName of the user who is creating the repository
+
+    -e, --email EMAIL
+    \tEmail id of the user
+
+    -m, --merge-tool TOOL
+    \tSpecify the merge tool to be used
+
+    -d, --diff-tool TOOL
+    \tSpecify the diff tool to be used
+
+    -f, --force-initialize
+    \tSpecify whether to reinitialize an existing repository.
+
+    -g, --gpgkey KEY
+    \tSpecify the GPG Key to be used to sign the commits
+
+    -G, --global-default-branch BRANCH_NAME
+    \tSpecify the default branch name to configure globally
+
+    -L, --local-default-branch BRANCH_NAME
+    \tSpecify the default branch name to configure locally
+
+    -r, --dry-run
+    \tRun the script with executing any commands. This mode prints the commands that would be executed
+
+    -D, --debug
+    \tSpecify this in order to print the internal variables. Useful for debugging if something wrong with the script
+
+    -v, --verbose
+    \tEnable verbose output
+
+    -h, --help
+    \tPrint this help
+    " | sed 's/^[ ]*//g'
+}
+
+parse_args() {
+    while [ $# -gt 0 ]
+    do
+        case "$1" in
+            -u | --username )
+                shift
+                username="'$1'"
+                ;;
+
+            -e | --email )
+                shift
+                email="'$1'"
+                ;;
+            -m | --merge-tool )
+                shift
+                mergetool="$1"
+                ;;
+
+            -d | --diff-tool )
+                shift
+                difftool="$1"
+                ;;
+
+            -f | --force-initialize )
+                force_init=1
+                ;;
+
+            -g | --gpgkey )
+                shift
+                gpgSigningKey="$1"
+                ;;
+
+            -G | --global-default-branch )
+                shift
+                global_default_branch="$1"
+                ;;
+
+            -L | --local-default-branch )
+                shift
+                local_default_branch="$1"
+                ;;
+
+            -v | --verbose )
+                verbose=1
+                ;;
+
+            -r | --dry-run )
+                dry_run=1
+                ;;
+
+            -D | --debug )
+                debug=1
+                ;;
+
+            -h | --help )
+                help=1
+                ;;
+            * )
+                echo "unknown option: $1"
+                exit 1
+                ;;
+        esac
+        shift
+    done
+
+    if [ ! -z $help ];then
+        usage
+        exit 0
+    fi
+
+    if [ -z "$username" ];then
+        username="$(git config --global --get user.name)"
+        if [ -z "$username" ];then
+            echo "Username is empty. Please enter username."
+            exit 1
+        fi
+    fi
+
+    if [ -z "$email" ];then
+        email="$(git config --global --get user.email)"
+        if [ -z "$email" ];then
+            echo "Email is empty. Please enter email."
+            exit 1
+        fi
+    fi
+
+}
+
+main() {
+    parse_args "$@"
+
+    if [ ! -z $debug ];then
+        debug
+    fi
+
+    local cmd=
+
+    if [ ! -z $dry_run ];then
+        echo -e "Running script in dry-run mode. Below are the commands that will be executed.\n"
+        cmd="echo -e "
+    fi
+
+    if [ ! -d .git ] || [ ! -z $force_init ] || [ ! -z $dry_run ];then
+        # Initialize git repository
+        log "-> Initializing git repository in `pwd`"
+        $cmd git init
+    fi
+
+    # Configure username
+    log "\n-> Configuring username"
+    $cmd git config user.name "$username" &&
+
+    # Configure Email
+    log "\n-> Configuring email"
+    $cmd git config user.email "$email"
+
+    # Configure global default branch name
+    if [ ! -z $global_default_branch ];then
+        log "\n-> Configuring default branch name as $global_default_branch"
+        $cmd git config --global init.defaultBranch "$global_default_branch"
+    fi
+
+    # Configure local default branch name
+    if [ ! -z $local_default_branch ];then
+        log "\n-> Configuring local default branch name as $local_default_branch"
+        $cmd git config init.defaultBranch "$local_default_branch"
+    fi
+
+    # Configure GPG Signing Key, if present
+    if [ ! -z "$gpgSigningKey" ];then
+        log "\n-> Configuring GPG Signing Key"
+        $cmd git config user.signingkey "$gpgSigningKey"
+    fi
+
+    # Configure difftool, if specified
+    if [ ! -z "$difftool" ];then
+        log "\n-> Configuring difftool"
+        # configure difftool if program exists
+        if [ $(command -v "$difftool" 2>&1 > /dev/null) ] || [ ! -z $dry_run ];then
+            $cmd git config diff.tool "$difftool" &&
+
+            # Configure difftool cmd
+            log "\n-> Configuring difftool command" &&
+            $cmd git config difftool.$difftool.cmd "$difftool \"\$LOCAL\" \"\$REMOTE\"" &&
+
+            # Configure difftool prompt
+            log "\n-> Configuring difftool prompt" &&
+            $cmd git config difftool.prompt false
+        else
+            echo -e "\n===== Error: program '$difftool' was not found. Please ensure its installed and configure the repo again. ====="
+        fi
+    fi
+
+    if [ ! -z "$mergetool" ];then
+        # Configure mergetool, if specified
+        log "\n-> Configuring mergetool"
+        if [ $(command -v "$mergetool" 2>&1 > /dev/null) ] || [ ! -z $dry_run ];then
+            $cmd git config merge.tool "$mergetool" &&
+
+            # Configure mergetoolcmd
+            log "\n-> Configuring mergetool command" &&
+            $cmd git config mergetool.$mergetool.cmd "$mergetool \"\$LOCAL\" \"\$MERGED\" \"\$REMOTE\" --output \"\$MERGED\""  &&
+
+            # Configure mergetool prompt
+            log "\n-> Configuring mergetool prompt" &&
+            $cmd git config mergetool.prompt false
+        else
+            echo -e "\n===== Error: program '$mergetool' was not found. Please ensure its installed and configure the repo again. ====="
+        fi
+    fi
+
+    # Configure aliases
+    log "\n-> Configuring git aliases"
+    if [ $(command -v gitk 2>&1 > /dev/null) ] || [ ! -z $dry_run ];then
+        $cmd git config alias.visual '!gitk'
+    else
+        echo -e "\n===== Error: program gitk was not found. Failed to configure the alias"
+    fi
+    $cmd git config alias.commitgraph 'log --graph --oneline --decorate --all'
+    $cmd git config alias.commitinfo 'log -p'
+    $cmd git config alias.onelinelog 'log --oneline'
+    echo
+}
+
+main "$@"
+

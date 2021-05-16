@@ -1,0 +1,15 @@
+---
+
+distro_package_list:
+  - vim-ale
+  - vim-airline
+  - toolbox
+  - vim-fugitive
+  - vim-gitgutter
+  - eog
+  - manjaro-printer
+  - podman
+  - podman-compose
+  - podman-dnsname
+  - sshfs
+

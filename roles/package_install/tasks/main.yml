@@ -1,0 +1,31 @@
+---
+
+############################# Import package list #############################
+
+- name: Import common package list
+  include_vars: "pkglist_common.yml"
+
+- name: Import distro-specific package list
+  include_vars: "pkglist_{{ ansible_os_family }}.yml"
+
+- name: Import flatpak package list
+  include_vars: "pkglist_flatpak.yml"
+
+
+######################## Install the selected packages ########################
+
+- name: Install common packages
+  package: name="{{ common_package_list }}" state=present
+  ignore_errors: true
+
+- name: Install distro-specific packages
+  package: name="{{ distro_package_list }}" state=present
+  ignore_errors: true
+
+- name: Install flatpak packages
+  flatpak:
+    name: "{{ flatpak_package_list }}"
+    state: present
+    remote: flathub
+    method: system
+

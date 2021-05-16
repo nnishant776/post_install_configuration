@@ -1,0 +1,8 @@
+---
+
+- name: Install themes
+  ansible.builtin.shell: |
+    /usr/local/bin/update_theme
+  args:
+    executable: /usr/bin/bash
+

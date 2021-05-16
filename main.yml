@@ -1,0 +1,48 @@
+---
+
+- name: Start post install configuration
+  hosts: localhost
+  connection: local
+
+  tasks:
+
+    - name: Dump hostvars
+      tags:
+        - never
+        - debug
+      copy:
+        content: var="{{ hostvars[inventory_hostname] | to_nice_json }}"
+        dest: /tmp/dump.json
+
+    - name: User environment configuration
+      tags:
+        - userenv_config
+      include_role:
+        name: user_environment_configuration
+        apply:
+          tags:
+            - userenv_config
+
+    - name: Package install
+      tags:
+        - package_install
+      vars:
+        - ansible_become: true
+      include_role:
+        name: package_install
+        apply:
+          tags:
+            - package_install
+
+    - name: Theme config
+      tags:
+        - theme_config
+      vars:
+        - ansible_become: true
+      include_role:
+        name: theme_config
+        apply:
+          tags:
+            - theme_config
+
+

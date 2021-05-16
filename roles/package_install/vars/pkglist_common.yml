@@ -1,0 +1,20 @@
+---
+
+common_package_list:
+  - nload
+  - htop
+  - git
+  - aria2
+  - neovim
+  - docker
+  - gnome-todo
+  - tree
+  - firefox
+  - flatpak
+  - hexchat
+  - evolution
+  - nethogs
+  - feh
+  - meld
+  - gitk
+
