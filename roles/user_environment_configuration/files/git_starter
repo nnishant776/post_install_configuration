@@ -12,6 +12,7 @@ global_default_branch=
 local_default_branch=
 help=
 force_init=
+cmd=
 
 log() {
     if [ ! -z $verbose ];then
@@ -59,10 +60,12 @@ usage() {
     \tSpecify the default branch name to configure locally
 
     -r, --dry-run
-    \tRun the script with executing any commands. This mode prints the commands that would be executed
+    \tRun the script with executing any commands.
+    \tThis mode prints the commands that would be executed
 
     -D, --debug
-    \tSpecify this in order to print the internal variables. Useful for debugging if something wrong with the script
+    \tSpecify this in order to print the internal variables.
+    \tUseful for debugging if something wrong with the script
 
     -v, --verbose
     \tEnable verbose output
@@ -120,6 +123,7 @@ parse_args() {
 
             -r | --dry-run )
                 dry_run=1
+                cmd="echo -e"
                 ;;
 
             -D | --debug )
@@ -127,7 +131,8 @@ parse_args() {
                 ;;
 
             -h | --help )
-                help=1
+                usage
+                exit 0
                 ;;
             * )
                 echo "unknown option: $1"
@@ -136,59 +141,166 @@ parse_args() {
         esac
         shift
     done
+}
 
-    if [ ! -z $help ];then
-        usage
-        exit 0
+setupenv_for_gpgauth() {
+    echo 'export GPG_TTY=$(tty)' >> ~/.profile
+}
+
+configure_git_aliases() {
+    log "\n-> Configuring git aliases"
+
+    # Configure aliases
+    if ! command -v gitk 2>&1 > /dev/null;then
+        $cmd git config alias.visual '!gitk'
+    else
+        echo -e "\n===== Error: program gitk was not found. Failed to configure the alias ====="
+        echo -e "Skipping alias configurations involving gitk\n"
     fi
 
-    if [ -z "$username" ];then
-        username="$(git config --global --get user.name)"
-        if [ -z "$username" ];then
-            echo "Username is empty. Please enter username."
+    $cmd git config alias.show-commitgraph 'log --graph --oneline --decorate --all'
+    $cmd git config alias.show-commitmsg 'show -s'
+    $cmd git config alias.show-commitdiff 'show'
+    $cmd git config alias.onelinelog 'log --oneline'
+    $cmd git config alias.unstage 'reset'
+    $cmd git config alias.add-modified '!git add `git ls-files -m --exclude-standard --full-name`'
+    $cmd git config alias.add-untracked '!git add `git ls-files -o --exclude-standard --full-name`'
+    $cmd git config alias.restore-deleted '!git restore `git ls-files -d --exclude-standard --full-name`'
+    $cmd git config alias.add-all '!git add `git ls-files -m -o --exclude-standard --full-name`'
+    $cmd git config alias.list-untracked '!git ls-files -o --exclude-standard --full-name'
+    $cmd git config alias.add-nw '!sh -c "git diff -U0 -w --no-color $@ | git apply --cached --ignore-whitespace --unidiff-zero -"'
+    if [ ! -z "$gpgSigningKey" ];then
+        $cmd git config alias.signed-commit '!git commit -S $@'
+    fi
+}
+
+configure_difftool_params() {
+    log "\n-> Configuring difftool"
+
+    # Check if the tool exists
+    if ! command -v "$difftool" 2>&1 > /dev/null;then
+        echo -e "\n===== Error: program '$difftool' was not found ====="
+        echo -e "Following paths were searched: $PATH\nPlease ensure its installed and present in PATH and then configure the repo again"
+            exit 1
+        fi
+    # Configure difftool
+    $cmd git config diff.tool "$difftool" &&
+
+    # Configure difftool cmd
+    log "\n-> Configuring difftool command" &&
+    $cmd git config difftool.$difftool.cmd "$difftool \"\$LOCAL\" \"\$REMOTE\"" &&
+
+    # Configure difftool prompt
+    log "\n-> Configuring difftool prompt" &&
+    $cmd git config difftool.prompt false
+}
+
+configure_mergetool_params() {
+    log "\n-> Configuring mergetool"
+
+    # Check if the tool exists
+    if ! command -v "$mergetool" 2>&1 > /dev/null;then
+        echo -e "\n===== Error: program '$mergetool' was not found ====="
+        echo -e "Please ensure its installed and present in PATH and then configure the repo again"
+        exit 1
+    fi
+
+    # Configure mergetool
+    $cmd git config merge.tool "$mergetool" &&
+
+    # Configure mergetoolcmd
+    log "\n-> Configuring mergetool command" &&
+    $cmd git config mergetool.$mergetool.cmd "$mergetool \"\$LOCAL\" \"\$MERGED\" \"\$REMOTE\" --output \"\$MERGED\""  &&
+
+    # Configure mergetool prompt
+    log "\n-> Configuring mergetool prompt" &&
+    $cmd git config mergetool.prompt false
+}
+
+configure_user_name() {
+    log "\n-> Configuring username"
+
+    # Check if the repo has already configured username
+    if git config --get user.name > /dev/null && [ -z $force_init ];then
+        echo -e "\n===== Warning: Current repository has already configured username ====="
+        echo -e "Skipping username configuration. Pass -f or --force-initialize to force reconfiguration"
+    else
+        if [ ! -z "$username" ];then
+            # If cmdline args has username, configure directly
+            $cmd git config user.name "$username"
+        elif [ ! $(git config --global --get user.name) ];then
+            # If username not supplied in cmdline, check global config. Fail if not present
+            echo -e "\n===== Error: Username could not be found ====="
+            echo -e "Please specify user name on command line or configure it globally"
             exit 1
         fi
     fi
+}
 
-    if [ -z "$email" ];then
-        email="$(git config --global --get user.email)"
-        if [ -z "$email" ];then
-            echo "Email is empty. Please enter email."
+configure_user_email() {
+    log "\n-> Configuring email"
+
+    # Check if the repo has already configured email
+    if git config --get user.email 2>&1 > /dev/null && [ -z $force_init ];then
+        echo -e "\n===== Warning: Current repository has already configured email ====="
+        echo -e "Skipping email configuration. Pass -f or --force-initialize to force reconfiguration"
+    else
+        if [ ! -z "$email" ];then
+            # If cmdline args has email, configure directly
+            $cmd git config user.email "$email"
+        elif [ ! $(git config --global --get user.email) ];then
+            # If email not supplied in cmdline, check global config. Fail if not present
+            echo -e "\n===== Error: Email could not be found ====="
+            echo -e "Please specify email on command line or configure it globally"
             exit 1
         fi
     fi
-
 }
 
 main() {
+    if [ $# -lt 2 ];then
+        usage
+        exit 1
+    fi
     parse_args "$@"
+
+    if [ ! -z $dry_run ];then
+        echo -e "Running script in dry-run mode. Below are the commands that will be executed"
+        verbose=1
+        cmd="echo -e "
+    fi
 
     if [ ! -z $debug ];then
         debug
     fi
 
-    local cmd=
-
-    if [ ! -z $dry_run ];then
-        echo -e "Running script in dry-run mode. Below are the commands that will be executed.\n"
-        cmd="echo -e "
-    fi
-
-    if [ ! -d .git ] || [ ! -z $force_init ] || [ ! -z $dry_run ];then
+    if [ ! -d .git ] || [ ! -z $force_init ];then
         # Initialize git repository
-        log "-> Initializing git repository in `pwd`"
+        log "\n-> Initializing git repository in `pwd`"
         $cmd git init
     else
-        log "-> Skipping repository initialization because it already exists"
+        log "\n-> Skipping repository initialization because it already exists. Pass -f or --force-initialize to force reinitialization"
     fi
 
-    # Configure username
-    log "\n-> Configuring username"
-    $cmd git config user.name "$username" &&
+    # Configure username if specified
+    if [ ! -z "$username" ];then
+        configure_user_name
+    fi
 
-    # Configure Email
-    log "\n-> Configuring email"
-    $cmd git config user.email "$email"
+    # Configure email if specified
+    if [ ! -z "$email" ];then
+        configure_user_email
+    fi
+
+    # Configure difftool
+    if [ ! -z "$difftool" ];then
+        configure_difftool_params
+    fi
+
+    # Configure mergetool
+    if [ ! -z "$mergetool" ];then
+        configure_mergetool_params
+    fi
 
     # Configure global default branch name
     if [ ! -z $global_default_branch ];then
@@ -206,65 +318,11 @@ main() {
     if [ ! -z "$gpgSigningKey" ];then
         log "\n-> Configuring GPG Signing Key"
         $cmd git config user.signingkey "$gpgSigningKey"
+        $cmd git config commit.gpgSign true
     fi
 
-    # Configure difftool, if specified
-    if [ ! -z "$difftool" ];then
-        log "\n-> Configuring difftool"
-        # configure difftool if program exists
-        if [ $(command -v "$difftool" 2>&1 > /dev/null) ] || [ ! -z $dry_run ];then
-            $cmd git config diff.tool "$difftool" &&
-
-            # Configure difftool cmd
-            log "\n-> Configuring difftool command" &&
-            $cmd git config difftool.$difftool.cmd "$difftool \"\$LOCAL\" \"\$REMOTE\"" &&
-
-            # Configure difftool prompt
-            log "\n-> Configuring difftool prompt" &&
-            $cmd git config difftool.prompt false
-        else
-            echo -e "\n===== Error: program '$difftool' was not found. Please ensure its installed and configure the repo again. ====="
-        fi
-    fi
-
-    if [ ! -z "$mergetool" ];then
-        # Configure mergetool, if specified
-        log "\n-> Configuring mergetool"
-        if [ $(command -v "$mergetool" 2>&1 > /dev/null) ] || [ ! -z $dry_run ];then
-            $cmd git config merge.tool "$mergetool" &&
-
-            # Configure mergetoolcmd
-            log "\n-> Configuring mergetool command" &&
-            $cmd git config mergetool.$mergetool.cmd "$mergetool \"\$LOCAL\" \"\$MERGED\" \"\$REMOTE\" --output \"\$MERGED\""  &&
-
-            # Configure mergetool prompt
-            log "\n-> Configuring mergetool prompt" &&
-            $cmd git config mergetool.prompt false
-        else
-            echo -e "\n===== Error: program '$mergetool' was not found. Please ensure its installed and configure the repo again. ====="
-        fi
-    fi
-
-    # Configure aliases
-    log "\n-> Configuring git aliases"
-    if [ $(command -v gitk 2>&1 > /dev/null) ] || [ ! -z $dry_run ];then
-        $cmd git config alias.visual '!gitk'
-    else
-        echo -e "\n===== Error: program gitk was not found. Failed to configure the alias"
-    fi
-    $cmd git config alias.commitgraph 'log --graph --oneline --decorate --all'
-    $cmd git config alias.commitinfo 'log -p'
-    $cmd git config alias.onelinelog 'log --oneline'
-    $cmd git config alias.unstage 'reset'
-    $cmd git config alias.add-modified '!git add `git ls-files -m --exclude-standard`'
-    $cmd git config alias.add-untracked '!git add `git ls-files -o --exclude-standard`'
-    $cmd git config alias.add '!git add `git ls-files -m -o --exclude-standard`'
-
-    # Configure miscellaneous settings
-    log "\n-> Configuring white space settings"
-    $cmd git config core.whitespace -blank-at-eof
-    echo
+    # Configure git aliases
+    configure_git_aliases
 }
 
 main "$@"
-
