@@ -30,5 +30,3 @@ cd icons/WhiteSur-icon-theme
 git pull
 ./install.sh
 cd ../../
-
-

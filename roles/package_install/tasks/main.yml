@@ -28,4 +28,3 @@
     state: present
     remote: flathub
     method: system
-

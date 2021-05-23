@@ -12,4 +12,3 @@ distro_package_list:
   - podman-compose
   - podman-dnsname
   - sshfs
-

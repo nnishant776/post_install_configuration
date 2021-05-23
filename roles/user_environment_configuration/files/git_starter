@@ -178,6 +178,8 @@ main() {
         # Initialize git repository
         log "-> Initializing git repository in `pwd`"
         $cmd git init
+    else
+        log "-> Skipping repository initialization because it already exists"
     fi
 
     # Configure username
@@ -253,7 +255,7 @@ main() {
     $cmd git config alias.commitgraph 'log --graph --oneline --decorate --all'
     $cmd git config alias.commitinfo 'log -p'
     $cmd git config alias.onelinelog 'log --oneline'
-    $cmd git config alias.unstage 'reset HEAD --'
+    $cmd git config alias.unstage 'reset'
     $cmd git config alias.add-modified '!git add `git ls-files -m --exclude-standard`'
     $cmd git config alias.add-untracked '!git add `git ls-files -o --exclude-standard`'
     $cmd git config alias.add '!git add `git ls-files -m -o --exclude-standard`'

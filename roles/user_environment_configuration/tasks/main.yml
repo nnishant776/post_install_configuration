@@ -15,4 +15,3 @@
     - { src: mkfile, dest: /usr/local/bin/mkfile }
     - { src: update_theme, dest: /usr/local/bin/update_theme }
     - { src: renamer, dest: /usr/local/bin/renamer }
-

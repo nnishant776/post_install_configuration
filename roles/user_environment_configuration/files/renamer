@@ -224,4 +224,3 @@ def processCmdlineArguments(argsTarget: FileRenameUtil) -> FileRenameUtil:
 if __name__ == "__main__":
     fileRenameUtil = processCmdlineArguments(FileRenameUtil())
     fileRenameUtil.renameFiles()
-

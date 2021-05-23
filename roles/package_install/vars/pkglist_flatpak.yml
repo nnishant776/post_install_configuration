@@ -9,4 +9,3 @@ flatpak_package_list:
   - com.bitwarden.desktop
   - org.gnome.music
   - tv.kodi.Kodi
-
