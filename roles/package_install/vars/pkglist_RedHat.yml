@@ -1,0 +1,36 @@
+---
+
+distro_package_list:
+  - vim-ale
+  - vim-airline
+  - toolbox
+  - vim-fugitive
+  - vim-gitgutter
+  - eog
+  - podman
+  - podman-compose
+  - podman-plugins
+  - fuse-sshfs
+  - chromium-vaapi
+  - ffmpeg-libs
+  - dav1d
+  - mozilla-openh264
+  - ffmpeg
+  - gstreamer1-plugin-openh264
+  - liba52
+  - fdkaac
+  - ffmpegthumbnailer
+  - openssh-askpass
+  - openssh-server
+  - p7zip
+  - p7zip-plugins
+  - nethogs
+  - feh
+  - lm_sensors
+  - mozilla-fira-*
+  - ibus-table-code
+  - iucode-tool
+  - microcode_ctl
+  - gnome-firmware
+  - intltools
+  - gnome-todo
