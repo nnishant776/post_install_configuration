@@ -1,0 +1,161 @@
+#!/usr/bin/env bash
+
+set -e -u
+
+tools_download_dir="/tmp/kubernetes_tools"
+k8s_backend="minikube"
+k8s_backend_version="latest"
+k8s_download_url="https://storage.googleapis.com/minikube/releases/$k8s_backend_version/minikube-linux-amd64"
+enable_logging=1
+cmd=
+force_install=0
+
+function usage() {
+    local progname=`basename $0`
+    printf "\
+    Usage: $progname [--kind VERSION / --minikube VERSION] [-h / --help]
+    " | sed 's/^\s*//g'
+}
+
+function log() {
+    local logging_cmd="echo -e "
+    local log_tag=
+    case "$1" in
+        -i | --info )
+            log_tag="[INFO]"
+            shift
+            ;;
+        -e | --err )
+            log_tag="[ERROR]"
+            shift
+            ;;
+        -w | --warn )
+            log_tag="[WARN]"
+            shift
+            ;;
+        * )
+            log_tag="[INFO]"
+            ;;
+    esac
+
+    local log_header="[$(date --iso-8601=s)]"
+
+    if [ $enable_logging -ne 0 ];then
+        $logging_cmd "$log_tag $@"
+    fi
+}
+
+function parse_args() {
+    while [ $# -gt 0 ];do
+        case $1 in
+            -K | --kind )
+                shift
+                k8s_backend_version="$1"
+                k8s_backend="kind"
+                k8s_download_url="https://github.com/kubernetes-sigs/kind/releases/download/$k8s_backend_version/kind-linux-amd64"
+                ;;
+            -M | --minikube )
+                shift
+                k8s_backend_version="$1"
+                k8s_backend="minikube"
+                k8s_download_url="https://storage.googleapis.com/minikube/releases/$k8s_backend_version/minikube-linux-amd64"
+                ;;
+            -h | --help )
+                usage
+                exit 0
+                ;;
+            -q | --quiet )
+                enable_logging=0
+                ;;
+            -D | --dryrun )
+                cmd="echo"
+                ;;
+            -f | --force )
+                force_install=1
+                ;;
+            * )
+                echo "unknown argument: $1"
+                echo "Use $progname --help to print help options for this program"
+                exit 1
+                ;;
+        esac
+        shift
+    done
+}
+
+function download() {
+    local url="$1"
+    local output_file="$2"
+    $cmd curl -#LZ $url --output $output_file
+}
+
+function install_tools() {
+    install_k8s_backend
+    install_kubectl
+}
+
+function install_file() {
+    local install_location=
+    if [ $UID -eq 0 ];then
+        install_location="/usr/local/bin"
+    else
+        $cmd mkdir -p "$HOME/.local/bin"
+        install_location="$HOME/.local/bin"
+    fi
+    log -i "Installing $(basename $1) at $install_location"
+    if [ $force_install -ne 0 ];then
+        rm -f "$install_location/$(basename $1)"
+    fi
+    $cmd install -D -o $USER -g $USER -m 0755 "$1" "$install_location/$(basename $1)"
+}
+
+function install_k8s_backend() {
+    if command -v $k8s_backend >/dev/null 2>&1 && [ $force_install -eq 0 ]; then
+        log -w "$k8s_backend is already installed. Skipping."
+    else
+        local k8s_driver_bin="$tools_download_dir/k8s_driver/$k8s_backend"
+        $cmd mkdir -p $(dirname $k8s_driver_bin)
+        log -i "Downloading $k8s_backend as kubernetes backend"
+        download $k8s_download_url $k8s_driver_bin
+        $cmd chmod 0755 $k8s_driver_bin
+        install_file $k8s_driver_bin
+    fi
+}
+
+function install_kubectl() {
+    if command -v kubectl >/dev/null 2>&1 && [ $force_install -eq 0 ]; then
+        log -w "kubectl is already installed. Skipping."
+    else
+        local kubectl_bin="$tools_download_dir/kubectl/kubectl"
+        $cmd mkdir -p $(dirname $kubectl_bin)
+        local kubectl_version="$(curl -L -s https://dl.k8s.io/release/stable.txt)"
+        log -i "Downloading kubectl binary"
+        download "https://dl.k8s.io/release/$kubectl_version/bin/linux/amd64/kubectl" "$kubectl_bin"
+        log -i "Downloading kubectl binary checksum"
+        download "https://dl.k8s.io/$kubectl_version/bin/linux/amd64/kubectl.sha256" "$kubectl_bin.sha256"
+        local chksum="$(cat $kubectl_bin.sha256) $kubectl_bin"
+        log -i "Verifying checksum for kubectl binary"
+        if [ -z $cmd ];then
+            echo $chksum | sha256sum --check
+        else
+            $cmd "echo $chksum | sha256sum --check"
+        fi
+        $cmd chmod 0755 $kubectl_bin
+        install_file $kubectl_bin
+    fi
+}
+
+function cleanup() {
+    if [ -d $tools_download_dir ];then
+        log -i "Cleaning up downloaded files"
+        $cmd rm -rf "$tools_download_dir"
+    fi
+}
+
+function main() {
+    parse_args $@
+    install_tools
+    cleanup
+}
+
+main "$@"
