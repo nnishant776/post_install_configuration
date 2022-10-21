@@ -4,6 +4,10 @@
   with_items:
     - { src: init.vim, dest: "{{ ansible_user_dir }}/.config/nvim/init.vim" }
     - { src: .vimrc, dest: "{{ ansible_user_dir }}/.vimrc" }
+    - {
+        src: plug.vim,
+        dest: "{{ ansible_user_dir }}/.local/share/nvim/site/autoload",
+      }
 
 - name: Configure custom utilities
   become: true
