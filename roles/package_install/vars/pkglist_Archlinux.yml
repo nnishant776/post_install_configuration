@@ -1,5 +1,4 @@
 ---
-
 distro_package_list:
   - vim-ale
   - vim-airline

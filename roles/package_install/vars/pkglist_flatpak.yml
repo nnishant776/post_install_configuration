@@ -1,5 +1,4 @@
 ---
-
 flatpak_package_list:
   - com.visualstudio.code
   - com.github.fabiocolacio.marker

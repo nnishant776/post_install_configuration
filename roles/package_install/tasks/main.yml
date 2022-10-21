@@ -1,5 +1,4 @@
 ---
-
 ############################# Import package list #############################
 
 - name: Import common package list
@@ -10,7 +9,6 @@
 
 - name: Import flatpak package list
   include_vars: "pkglist_flatpak.yml"
-
 
 ######################## Install the selected packages ########################
 
