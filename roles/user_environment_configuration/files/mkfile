@@ -1,4 +1,5 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
+
 filename="$1"
 directory_name="$(dirname $filename)"
 mkdir -p "$directory_name"
