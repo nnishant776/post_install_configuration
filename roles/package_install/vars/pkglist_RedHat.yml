@@ -1,35 +1,47 @@
 ---
 distro_package_list:
-  - vim-ale
-  - vim-airline
-  - toolbox
-  - vim-fugitive
-  - vim-gitgutter
-  - eog
-  - podman
-  - podman-compose
-  - podman-plugins
+  # System-Utility packages
   - fuse-sshfs
-  - chromium-vaapi
-  - ffmpeg-libs
-  - dav1d
-  - mozilla-openh264
-  - ffmpeg
-  - gstreamer1-plugin-openh264
-  - liba52
-  - fdkaac
-  - ffmpegthumbnailer
-  - openssh-askpass
   - openssh-server
+  - python3-pip
   - p7zip
   - p7zip-plugins
   - nethogs
   - feh
   - lm_sensors
-  - mozilla-fira-*
   - ibus-table-code
   - iucode-tool
   - microcode_ctl
-  - gnome-firmware
   - intltools
-  - gnome-todo
+  - d-feet
+
+  # Developer Tools
+  - gh
+  - gitk
+  -
+
+  # Container management
+  - "@Container Management"
+  - docker
+
+  # Multimedia packages
+  - chromium-vaapi
+  - ffmpeg-free
+  - dav1d
+  - mozilla-openh264
+  - gstreamer1-plugin-libav
+  - gstreamer1-plugin-openh264
+  - gstreamer1-plugins-base
+  - gstreamer1-plugins-good
+  - gstreamer1-plugins-good-extras
+  - gstreamer1-plugins-bad
+  - gstreamer1-plugins-bad-free
+  - gstreamer1-plugins-bad-free-extras
+  - gstreamer1-plugins-ugly
+  - gstreamer1-plugins-ugly-free
+  - gstreamer1-vaapi
+  - gst-entrans
+
+  # Font packages
+  - mozilla-fira-*
+  - fira-code-fonts

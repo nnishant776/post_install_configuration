@@ -1,10 +1,4 @@
 ---
 flatpak_package_list:
-  - com.visualstudio.code
-  - com.github.fabiocolacio.marker
-  - io.atom.Atom
   - org.raspberrypi.rpi-imager
-  - com.github.marktext.marktext
-  - com.bitwarden.desktop
-  - org.gnome.music
   - tv.kodi.Kodi

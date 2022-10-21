@@ -1,13 +1,46 @@
 ---
 distro_package_list:
-  - vim-ale
-  - vim-airline
-  - toolbox
-  - vim-fugitive
-  - vim-gitgutter
-  - eog
+  # System-Utility packages
+  - sshfs
+  - openssh
+  - python-pip
+  - p7zip
+  - nethogs
+  - feh
+  - lm_sensors
+  - ibus-table
+  - iucode-tool
+  - intel-ucode
+  - intltool
   - manjaro-printer
+  - d-feet
+  - tar
+  - gzip
+  - unzip
+  - unrar
+  - zstd
+
+  # Development Tools
+  - github-cli
+
+  # Container management
+  - docker
   - podman
   - podman-compose
   - podman-dnsname
-  - sshfs
+  - slirp4netns
+
+  # Multimedia packages
+  - ffmpeg
+  - gst-libav
+  - gst-plugin-va
+  - gst-plugins-base
+  - gst-plugins-good
+  - gst-plugins-bad
+  - gst-plugins-ugly
+  - gstreamer
+  - gstreamer-vaapi
+
+  # Font packages
+  - woff-fira-code
+  - woff2-fira-code
