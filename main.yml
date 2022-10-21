@@ -31,14 +31,3 @@
         apply:
           tags:
             - package_install
-
-    - name: Theme config
-      tags:
-        - theme_config
-      vars:
-        - ansible_become: true
-      include_role:
-        name: theme_config
-        apply:
-          tags:
-            - theme_config

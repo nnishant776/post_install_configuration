@@ -1,5 +1,4 @@
 ---
-
 - name: Configure vim/neovim
   copy: src="{{ item.src }}" dest="{{ item.dest }}"
   with_items:
@@ -13,5 +12,4 @@
     - { src: dirsize, dest: /usr/local/bin/dirsize }
     - { src: git_starter, dest: /usr/local/bin/git_starter }
     - { src: mkfile, dest: /usr/local/bin/mkfile }
-    - { src: update_theme, dest: /usr/local/bin/update_theme }
     - { src: renamer, dest: /usr/local/bin/renamer }
