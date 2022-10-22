@@ -8,14 +8,15 @@
       tags:
         - never
         - debug
-      copy:
+      ansible.builtin.copy:
         content: var="{{ hostvars[inventory_hostname] | to_nice_json }}"
         dest: /tmp/dump.json
+        mode: "0644"
 
     - name: User environment configuration
       tags:
         - userenv_config
-      include_role:
+      ansible.builtin.include_role:
         name: user_environment_configuration
         apply:
           tags:
@@ -24,9 +25,7 @@
     - name: Package install
       tags:
         - package_install
-      vars:
-        - ansible_become: true
-      include_role:
+      ansible.builtin.include_role:
         name: package_install
         apply:
           tags:

@@ -2,13 +2,13 @@
 ############################# Import package list #############################
 
 - name: Import common package list
-  include_vars: "pkglist_common.yml"
+  ansible.builtin.include_vars: "pkglist_common.yml"
 
 - name: Import distro-specific package list
-  include_vars: "pkglist_{{ ansible_distribution }}.yml"
+  ansible.builtin.include_vars: "pkglist_{{ ansible_distribution }}.yml"
 
 - name: Import flatpak package list
-  include_vars: "pkglist_flatpak.yml"
+  ansible.builtin.include_vars: "pkglist_flatpak.yml"
 
 ######################## Install the selected packages ########################
 
@@ -20,15 +20,19 @@
   when: ansible_distribution == "Fedora"
 
 - name: Install common packages
-  package: name="{{ common_package_list }}" state=present
-  ignore_errors: true
+  become: true
+  ansible.builtin.package:
+    name: "{{ common_package_list }}"
+    state: present
 
 - name: Install distro-specific packages
-  package: name="{{ distro_package_list }}" state=present
-  ignore_errors: true
+  become: true
+  ansible.builtin.package:
+    name: "{{ distro_package_list }}"
+    state: present
 
 - name: Install flatpak packages
-  flatpak:
+  community.general.flatpak:
     name: "{{ flatpak_package_list }}"
     state: present
     remote: flathub
