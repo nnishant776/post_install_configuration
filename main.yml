@@ -20,6 +20,13 @@
         apply:
           tags: package_install
 
+    - name: System configuration
+      tags: system_config
+      ansible.builtin.include_role:
+        name: system_configuration
+        apply:
+          tags: system_config
+
     - name: User environment configuration
       tags: userenv_config
       ansible.builtin.include_role:
