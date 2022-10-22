@@ -9,17 +9,16 @@
     - { src: .vimrc, dest: "{{ ansible_user_dir }}/.vimrc" }
     - { src: plug.vim, dest: "{{ ansible_user_dir }}/.local/share/nvim/site/autoload" }
 
-- name: Configure custom utilities
-  become: true
+- name: Install custom utilities
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "0755"
   with_items:
-    - { src: dirsize, dest: /usr/local/bin/dirsize }
-    - { src: git_starter, dest: /usr/local/bin/git_starter }
-    - { src: mkfile, dest: /usr/local/bin/mkfile }
-    - { src: renamer, dest: /usr/local/bin/renamer }
+    - { src: dirsize, dest: "{{ ansible_user_dir }}/.local/bin/dirsize" }
+    - { src: git_starter, dest: "{{ ansible_user_dir }}/.local/bin/git_starter" }
+    - { src: mkfile, dest: "{{ ansible_user_dir }}/.local/bin/mkfile" }
+    - { src: renamer, dest: "{{ ansible_user_dir }}/.local/bin/renamer" }
 
 - name: Get backup configuration
   ansible.builtin.include_vars: "backup.yml"
