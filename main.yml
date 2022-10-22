@@ -13,20 +13,16 @@
         dest: /tmp/dump.json
         mode: "0644"
 
-    - name: User environment configuration
-      tags:
-        - userenv_config
-      ansible.builtin.include_role:
-        name: user_environment_configuration
-        apply:
-          tags:
-            - userenv_config
-
     - name: Package install
-      tags:
-        - package_install
+      tags: package_install
       ansible.builtin.include_role:
         name: package_install
         apply:
-          tags:
-            - package_install
+          tags: package_install
+
+    - name: User environment configuration
+      tags: userenv_config
+      ansible.builtin.include_role:
+        name: user_environment_configuration
+        apply:
+          tags: userenv_config
