@@ -20,3 +20,14 @@
     - { src: git_starter, dest: /usr/local/bin/git_starter }
     - { src: mkfile, dest: /usr/local/bin/mkfile }
     - { src: renamer, dest: /usr/local/bin/renamer }
+
+- name: Get backup configuration
+  ansible.builtin.include_vars: "backup.yml"
+
+- name: Restore backup
+  ansible.builtin.unarchive:
+    src: "{{ backup_file_path }}"
+    owner: "{{ ansible_effective_user_id }}"
+    group: "{{ ansible_effective_group_id }}"
+    dest: "/"
+  when: backup_file_path
