@@ -1,47 +1,51 @@
 ---
 distro_package_list:
   # System-Utility packages
-  - fuse-sshfs
-  - openssh-server
-  - python3-pip
-  - p7zip
-  - p7zip-plugins
-  - nethogs
-  - feh
-  - lm_sensors
-  - ibus-table-code
-  - iucode-tool
-  - microcode_ctl
-  - intltools
-  - d-feet
+  system_utils:
+    - fuse-sshfs
+    - openssh-server
+    - python3-pip
+    - p7zip
+    - p7zip-plugins
+    - nethogs
+    - feh
+    - lm_sensors
+    - ibus-table-code
+    - iucode-tool
+    - microcode_ctl
+    - intltools
+    - d-feet
 
   # Developer Tools
-  - gh
-  - gitk
-  -
+  dev_tools:
+    - gh
+    - gitk
 
   # Container management
-  - "@Container Management"
-  - docker
+  container_tools:
+    - "@Container Management"
+    - docker
 
   # Multimedia packages
-  - chromium-vaapi
-  - ffmpeg-free
-  - dav1d
-  - mozilla-openh264
-  - gstreamer1-plugin-libav
-  - gstreamer1-plugin-openh264
-  - gstreamer1-plugins-base
-  - gstreamer1-plugins-good
-  - gstreamer1-plugins-good-extras
-  - gstreamer1-plugins-bad
-  - gstreamer1-plugins-bad-free
-  - gstreamer1-plugins-bad-free-extras
-  - gstreamer1-plugins-ugly
-  - gstreamer1-plugins-ugly-free
-  - gstreamer1-vaapi
-  - gst-entrans
+  multimedia:
+    - chromium-vaapi
+    - ffmpeg-free
+    - dav1d
+    - mozilla-openh264
+    - gstreamer1-plugin-libav
+    - gstreamer1-plugin-openh264
+    - gstreamer1-plugins-base
+    - gstreamer1-plugins-good
+    - gstreamer1-plugins-good-extras
+    - gstreamer1-plugins-bad
+    - gstreamer1-plugins-bad-free
+    - gstreamer1-plugins-bad-free-extras
+    - gstreamer1-plugins-ugly
+    - gstreamer1-plugins-ugly-free
+    - gstreamer1-vaapi
+    - gst-entrans
 
   # Font packages
-  - mozilla-fira-*
-  - fira-code-fonts
+  fonts:
+    - mozilla-fira-*
+    - fira-code-fonts

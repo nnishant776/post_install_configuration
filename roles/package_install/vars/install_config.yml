@@ -1,0 +1,7 @@
+---
+install_candidates:
+  - { name: system_utils, install: false }
+  - { name: dev_tools, install: false }
+  - { name: container_tools, install: false }
+  - { name: multimedia, install: false }
+  - { name: fonts, install: false }

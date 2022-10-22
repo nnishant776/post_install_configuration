@@ -1,46 +1,50 @@
 ---
 distro_package_list:
   # System-Utility packages
-  - sshfs
-  - openssh
-  - python-pip
-  - p7zip
-  - nethogs
-  - feh
-  - lm_sensors
-  - ibus-table
-  - iucode-tool
-  - intel-ucode
-  - intltool
-  - manjaro-printer
-  - d-feet
-  - tar
-  - gzip
-  - unzip
-  - unrar
-  - zstd
+  system_utils:
+    - sshfs
+    - openssh
+    - python-pip
+    - p7zip
+    - nethogs
+    - feh
+    - lm_sensors
+    - ibus-table
+    - iucode-tool
+    - intel-ucode
+    - intltool
+    - d-feet
+    - tar
+    - gzip
+    - unzip
+    - unrar
+    - zstd
 
   # Development Tools
-  - github-cli
+  dev_tools:
+    - github-cli
 
   # Container management
-  - docker
-  - podman
-  - podman-compose
-  - podman-dnsname
-  - slirp4netns
+  container_tools:
+    - docker
+    - podman
+    - podman-compose
+    - podman-dnsname
+    - slirp4netns
 
   # Multimedia packages
-  - ffmpeg
-  - gst-libav
-  - gst-plugin-va
-  - gst-plugins-base
-  - gst-plugins-good
-  - gst-plugins-bad
-  - gst-plugins-ugly
-  - gstreamer
-  - gstreamer-vaapi
+  multimedia:
+    - ffmpeg
+    - gst-libav
+    - gst-plugin-va
+    - gst-plugins-base
+    - gst-plugins-good
+    - gst-plugins-bad
+    - gst-plugins-ugly
+    - gstreamer
+    - gstreamer-vaapi
 
   # Font packages
-  - woff-fira-code
-  - woff2-fira-code
+  fonts:
+    - woff-fira-code
+    - woff2-fira-code

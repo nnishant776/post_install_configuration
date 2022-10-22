@@ -10,6 +10,9 @@
 - name: Import flatpak package list
   ansible.builtin.include_vars: "pkglist_flatpak.yml"
 
+- name: Import installation configuration
+  ansible.builtin.include_vars: "install_config.yml"
+
 ######################## Install the selected packages ########################
 
 - name: Enable additional repositories
@@ -28,8 +31,10 @@
 - name: Install distro-specific packages
   become: true
   ansible.builtin.package:
-    name: "{{ distro_package_list }}"
+    name: "{{ distro_package_list[item.name] }}"
     state: present
+  when: item.install
+  loop: "{{ install_candidates }}"
 
 - name: Install flatpak packages
   community.general.flatpak:

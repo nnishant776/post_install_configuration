@@ -1,36 +1,41 @@
 ---
 distro_package_list:
   # System-Utility packages
-  - sshfs
-  - openssh-server
-  - python3-pip
-  - p7zip
-  - p7zip-full
-  - nethogs
-  - feh
-  - lm-sensors
-  - ibus-table-code
-  - iucode-tool
-  - intltool
-  - d-feet
+  system_utils:
+    - sshfs
+    - openssh-server
+    - python3-pip
+    - p7zip
+    - p7zip-full
+    - nethogs
+    - feh
+    - lm-sensors
+    - ibus-table-code
+    - iucode-tool
+    - intltool
+    - d-feet
 
   # Developer Tools
-  - gh
-  - gitk
+  dev_tools:
+    - gh
+    - gitk
 
   # Container Management
-  - docker.io
-  - podman
+  container_tools:
+    - docker.io
+    - podman
 
   # Multimedia packages
-  - ffmpeg
-  - dav1d
-  - gstreamer1.0-libav
-  - gstreamer1.0-plugins-base
-  - gstreamer1.0-plugins-good
-  - gstreamer1.0-plugins-bad
-  - gstreamer1.0-plugins-ugly
-  - gstreamer1.0-vaapi
+  multimedia:
+    - ffmpeg
+    - dav1d
+    - gstreamer1.0-libav
+    - gstreamer1.0-plugins-base
+    - gstreamer1.0-plugins-good
+    - gstreamer1.0-plugins-bad
+    - gstreamer1.0-plugins-ugly
+    - gstreamer1.0-vaapi
 
   # Font packages
-  - fonts-firacode
+  fonts:
+    - fonts-firacode
