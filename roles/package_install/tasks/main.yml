@@ -5,7 +5,7 @@
   include_vars: "pkglist_common.yml"
 
 - name: Import distro-specific package list
-  include_vars: "pkglist_{{ ansible_os_family }}.yml"
+  include_vars: "pkglist_{{ ansible_distribution }}.yml"
 
 - name: Import flatpak package list
   include_vars: "pkglist_flatpak.yml"
