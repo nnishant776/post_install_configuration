@@ -1,0 +1,292 @@
+{
+    /***************************** VS Code Application Specific Settings *****************************/
+    // VS Code Extension settings
+    "extensions.autoUpdate": false,
+    // VS Code File Handling settings
+    "files.watcherExclude": {
+        "**/.cache/**": true,
+        "**/.git/objects/**": false,
+        "**/.git/subtree-cache/**": false,
+        "**/build/**": true,
+        "**/CMakeCache.txt": true,
+        "**/CMakeFiles/**": true,
+        "**/node_modules/**": true
+    },
+    "files.exclude": {
+        "**/.cache/**": true
+    },
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "files.enableTrash": true,
+    "files.encoding": "utf8",
+    // VS Code Window settings
+    "window.menuBarVisibility": "toggle",
+    "window.autoDetectColorScheme": true,
+    // VS Code File Explorer settings
+    "explorer.confirmDragAndDrop": false,
+    "explorer.confirmDelete": false,
+    // VS Code Git settings
+    "git.ignoreLegacyWarning": true,
+    "diffEditor.codeLens": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+    // VS Code Search settings
+    "search.quickOpen.includeSymbols": true,
+    // VS Code Terminal settings
+    "terminal.integrated.fontFamily": "monospace",
+    "terminal.integrated.tabs.enabled": true,
+    // VS Code Extension Manager settings
+    "extensions.ignoreRecommendations": true,
+    // VS Code Update Manager settings
+    "update.mode": "manual",
+    // VS Code Editor settings
+    // Formatting
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "editor.detectIndentation": true,
+    // Fonts and appearance
+    "editor.fontFamily": "Droid Sans Mono",
+    "editor.fontSize": 14,
+    "editor.renderWhitespace": "boundary",
+    "editor.renderControlCharacters": false,
+    "editor.renderFinalNewline": false,
+    "editor.lineNumbers": "on",
+    "editor.guides.bracketPairs": false,
+    "editor.guides.highlightActiveBracketPair": true,
+    "editor.guides.highlightActiveIndentation": false,
+    "editor.guides.bracketPairsHorizontal": true,
+    "editor.guides.indentation": true,
+    // Code assistance
+    "editor.inlayHints.enabled": "offUnlessPressed",
+    "editor.suggestOnTriggerCharacters": false,
+    "editor.quickSuggestions": {
+        "other": "off",
+        "comments": "off",
+        "strings": "off"
+    },
+    "editor.suggest.showWords": false,
+    "editor.suggest.showColors": false,
+    "editor.suggest.showCustomcolors": false,
+    "editor.suggest.showEvents": false,
+    "editor.suggest.showFolders": false,
+    "editor.suggest.showFiles": false,
+    "editor.suggest.showKeywords": false,
+    "editor.suggest.showProperties": true,
+    "editor.suggest.showSnippets": false,
+    "editor.suggest.showOperators": false,
+    "editor.suggest.showClasses": true,
+    "editor.suggest.showTypeParameters": true,
+    "editor.suggest.showUsers": false,
+    "editor.suggest.preview": true,
+    "editor.suggest.localityBonus": false,
+    "editor.suggest.insertMode": "replace",
+    "editor.suggest.filterGraceful": false,
+    "editor.suggestSelection": "recentlyUsedByPrefix",
+    "editor.wordBasedSuggestions": false,
+    "editor.quickSuggestionsDelay": 200,
+    // Telemetry configuration
+    "telemetry.telemetryLevel": "off",
+    // Workbench settings
+    "workbench.preferredDarkColorTheme": "Default Dark+",
+    "workbench.preferredLightColorTheme": "Default Light+",
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter-notebook"
+    },
+    /******************************** Extension specific settings ********************************/
+    // golang.go
+    "go.testFlags": [
+        "-v"
+    ],
+    "go.enableCodeLens": {
+        "references": true
+    },
+    "go.gotoSymbol.includeGoroot": true,
+    "go.gotoSymbol.includeImports": true,
+    "go.toolsManagement.autoUpdate": true,
+    // rust-lang.rust-analyzer
+    "rust-analyzer.cargo.allFeatures": true,
+    "rust-analyzer.checkOnSave.command": "clippy",
+    "rust-analyzer.workspace.symbol.search.scope": "workspace_and_dependencies",
+    "rust-analyzer.imports.granularity.enforce": true,
+    // vadimcn.vscode-lldb
+    // eamodio.gitlens
+    "gitlens.currentLine.enabled": false,
+    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.advanced.commitOrdering": "topo",
+    "gitlens.codeLens.authors.enabled": false,
+    "gitlens.codeLens.recentChange.enabled": false,
+    "gitlens.hovers.annotations.changes": false,
+    "gitlens.hovers.annotations.details": false,
+    "gitlens.hovers.annotations.enabled": false,
+    "gitlens.hovers.currentLine.changes": false,
+    "gitlens.blame.avatars": false,
+    "gitlens.hovers.avatars": false,
+    "gitlens.views.lineHistory.avatars": false,
+    "gitlens.views.tags.avatars": false,
+    "gitlens.views.searchAndCompare.avatars": false,
+    "gitlens.views.repositories.avatars": false,
+    "gitlens.views.remotes.avatars": false,
+    "gitlens.views.fileHistory.avatars": false,
+    "gitlens.views.contributors.avatars": false,
+    "gitlens.views.commits.avatars": false,
+    "gitlens.views.branches.avatars": false,
+    // ms-vscode.cpptools
+    "C_Cpp.intelliSenseEngine": "Default",
+    "C_Cpp.clang_format_sortIncludes": true,
+    // llvm-vs-code-extensions.vscode-clangd
+    "clangd.onConfigChanged": "restart",
+    "clangd.arguments": [
+        "--all-scopes-completion",
+        "-j=4",
+        "--completion-style=detailed",
+        "--cross-file-rename",
+        "--header-insertion=iwyu",
+        "--enable-config",
+        "--malloc-trim",
+        "--pretty",
+        "--background-index",
+        "--suggest-missing-includes",
+        "--clang-tidy"
+    ],
+    // twxs.cmake
+    "cmake.generator": "Unix Makefiles",
+    // meson settings
+    "mesonbuild.buildFolder": "build",
+    // usernamehw.errorlens
+    "errorLens.enableDiagnosticsLevels": [
+        "error"
+    ],
+    // bbenoist.Doxygen
+    "doxdocgen.generic.splitCasingSmartText": false,
+    "doxdocgen.generic.boolReturnsTrueFalse": false,
+    "doxdocgen.generic.commandSuggestionAddPrefix": true,
+    // ms-toolsai.jupyter
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
+    // ms-vscode-remote.remote-containers
+    "dev.containers.dockerPath": "podman",
+    "dev.containers.dockerComposePath": "podman",
+    "dev.containers.logLevel": "trace",
+    "dev.containers.cacheVolume": true,
+    "dev.containers.workspaceMountConsistency": "cached",
+    "dev.downloadExtensionsLocally": true,
+    // redhat.vscode-yaml
+    "redhat.telemetry.enabled": true,
+    // vscode.vim
+    "vim.autoindent": true,
+    "vim.enableNeovim": true,
+    "vim.leader": "<space>",
+    "vim.statusBarColorControl": true,
+    "vim.statusBarColors.normal": [
+        "#8FBCBB",
+        "#000"
+    ],
+    "vim.statusBarColors.insert": [
+        "#BF616A",
+        "#000"
+    ],
+    "vim.statusBarColors.visual": [
+        "#B48EAD",
+        "#000"
+    ],
+    "vim.statusBarColors.visualline": [
+        "#B48EAD",
+        "#000"
+    ],
+    "vim.statusBarColors.visualblock": [
+        "#A3BE8C",
+        "#000"
+    ],
+    "vim.statusBarColors.replace": "#D08770",
+    "vim.statusBarColors.commandlineinprogress": "#007ACC",
+    "vim.statusBarColors.searchinprogressmode": "#007ACC",
+    "vim.statusBarColors.easymotionmode": "#007ACC",
+    "vim.statusBarColors.easymotioninputmoke": "#007ACC",
+    "vim.statusBarColors.surroundinputmode": "#007ACC",
+    "vim.handleKeys": {
+        "<C-d>": false,
+        "<C-w>": false,
+        "<C-f>": false,
+        "<C-o>": false
+    },
+    "vim.insertModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<C-n>"
+            ],
+            "after": [
+                "<Esc>"
+            ]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<leader>",
+                "f",
+                "r"
+            ],
+            "commands": [
+                "editor.foldRecursively"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "u",
+                "f",
+                "r"
+            ],
+            "commands": [
+                "editor.unfoldRecursively"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "f",
+                "a"
+            ],
+            "commands": [
+                "editor.foldAll"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "u",
+                "f",
+                "a"
+            ],
+            "commands": [
+                "editor.unfoldAll"
+            ]
+        }
+    ],
+    /************************************ Language specific settings ************************************/
+    "[c]": {
+        "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+    },
+    "[cpp]": {
+        "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+    },
+    "[shellscript]": {
+        "breadcrumbs.showArrays": true
+    },
+    "[yaml]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.autoIndent": "keep",
+        "editor.quickSuggestions": {
+            "other": true,
+            "comments": false,
+            "strings": true
+        }
+    }
+}
