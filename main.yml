@@ -33,3 +33,10 @@
         name: user_environment_configuration
         apply:
           tags: userenv_config
+
+    - name: Development Setup
+      tags: dev_setup
+      ansible.builtin.include_role:
+        name: development_setup
+        apply:
+          tags: dev_setup
