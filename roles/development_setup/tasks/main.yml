@@ -1,0 +1,62 @@
+---
+- name: Copy dev configs
+  ansible.builtin.copy:
+    dest: "{{ item.dest }}"
+    src: "{{ item.src }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - { src: "settings.json", dest: "{{ ansible_user_dir }}/.config/Code/User/settings.json", mode: "0644" }
+    - { src: "keybindings.json", dest: "{{ ansible_user_dir }}/.config/Code/User/keybindings.json", mode: "0644" }
+    - { src: "update.sh", dest: "{{ ansible_user_dir }}/.local/apps/VSCode-linux-x64/update.sh", mode: "0755" }
+
+- name: Install Visual Studio Code
+  ansible.builtin.command: "{{ ansible_user_dir }}/.local/apps/VSCode-linux-x64/update.sh"
+  register: install_vsc
+  changed_when: install_vsc.rc != 0
+
+- name: Add Visual Studio Code binary to PATH
+  ansible.builtin.file:
+    state: link
+    src: "{{ ansible_user_dir }}/.local/apps/VSCode-linux-x64/bin/code"
+    dest: "{{ ansible_user_dir }}/.local/bin/code"
+    mode: "0755"
+
+- name: Install Visual Studio Code Extensions
+  ansible.builtin.command: code --force --install-extension "{{ item }}"
+  register: ext_install
+  changed_when: ext_install.rc != 0
+  with_items:
+    - Angular.ng-template
+    - bilelmoussaoui.flatpak-vscode
+    - bungcip.better-toml
+    - dustypomerleau.rust-syntax
+    - eamodio.gitlens
+    - evgeniypeshkov.syntax-highlighter
+    - golang.go
+    - JScearcy.rust-doc-viewer
+    - llvm-vs-code-extensions.vscode-clangd
+    - lorenzopirro.rust-flash-snippets
+    - mhutchie.git-graph
+    - ms-azuretools.vscode-docker
+    - ms-python.python
+    - ms-python.vscode-pylance
+    - ms-vscode-remote.remote-containers
+    - ms-vscode-remote.remote-ssh
+    - ms-vscode-remote.remote-ssh-edit
+    - ms-vscode.cmake-tools
+    - ms-vscode.cpptools
+    - ms-vscode.vscode-typescript-next
+    - nyxiative.rust-and-friends
+    - PolyMeilex.rust-targets
+    - redhat.ansible
+    - redhat.vscode-yaml
+    - rust-lang.rust-analyzer
+    - serayuzgur.crates
+    - twxs.cmake
+    - usernamehw.errorlens
+    - vadimcn.vscode-lldb
+    - VisualStudioExptTeam.vscodeintellicode
+    - vsciot-vscode.vscode-arduino
+    - vscodevim.vim
+    - xaver.clang-format
+    - ZhangYue.rust-mod-generator
