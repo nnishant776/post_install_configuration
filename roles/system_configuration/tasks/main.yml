@@ -13,11 +13,20 @@
     - { name: "kernel.unprivileged_userns_clone", value: 1 }
     - { name: "user.max_user_namespaces", value: 28633 }
 
-- name: Add subuid/subgid configuration
+
+- name: Remove subuid/subgid configuration for current user if present
+  become: true
+  ansible.builtin.lineinfile:
+    regex: ".*{{ ansible_user_id }}.*"
+    state: absent
+    path: "{{ item }}"
+  with_items:
+    - /etc/subuid
+    - /etc/subgid
+
+- name: Add new subuid/subgid configuration for current user
   become: true
   ansible.builtin.shell: |
-    sed -i "/{{ ansible_user_id }}/c\\" /etc/subuid
-    sed -i "/{{ ansible_user_id }}/c\\" /etc/subgid
     usermod --add-subuids 200000-265535 {{ ansible_user_id }}
     usermod --add-subgids 200000-265535 {{ ansible_user_id }}
   register: subugid_cfg
