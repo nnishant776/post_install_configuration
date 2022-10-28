@@ -25,8 +25,10 @@
 
 - name: Restore backup
   ansible.builtin.unarchive:
-    src: "{{ backup_file_path }}"
+    src: "{{ item.src }}"
     owner: "{{ ansible_effective_user_id }}"
     group: "{{ ansible_effective_group_id }}"
-    dest: "/"
-  when: backup_file_path
+    dest: "{{ item.dest }}"
+  with_items:
+    "{{ backup_list }}"
+  when: backup_list

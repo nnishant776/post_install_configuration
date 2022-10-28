@@ -1,2 +1,4 @@
 ---
-backup_file_path:
+backup_list:
+  - src: "{{ ansible_user_dir }}/backup.tar.gz"
+    dest: "{{ ansible_user_dir }}"
