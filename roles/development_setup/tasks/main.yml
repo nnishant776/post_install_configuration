@@ -14,13 +14,6 @@
   register: install_vsc
   changed_when: install_vsc.rc != 0
 
-- name: Add Visual Studio Code binary to PATH
-  ansible.builtin.file:
-    state: link
-    src: "{{ ansible_user_dir }}/.local/apps/VSCode-linux-x64/bin/code"
-    dest: "{{ ansible_user_dir }}/.local/bin/code"
-    mode: "0755"
-
 - name: Install Visual Studio Code Extensions
   ansible.builtin.command: code --force --install-extension "{{ item }}"
   register: ext_install
