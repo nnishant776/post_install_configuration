@@ -12,4 +12,5 @@ common_package_list:
   - feh
   - meld
   - make
+  - jq
   - rsync
