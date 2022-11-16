@@ -10,9 +10,6 @@
 - name: Import flatpak package list
   ansible.builtin.include_vars: "pkglist_flatpak.yml"
 
-- name: Import installation configuration
-  ansible.builtin.include_vars: "install_config.yml"
-
 ######################## Install the selected packages ########################
 
 - name: Enable additional repositories

@@ -5,3 +5,8 @@ install_candidates:
   - { name: container_tools, install: false }
   - { name: multimedia, install: false }
   - { name: fonts, install: false }
+
+setup_config:
+  vscode_setup: false
+
+backup_list:

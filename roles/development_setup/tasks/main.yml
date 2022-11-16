@@ -1,8 +1,5 @@
 ---
 
-- name: Import setup config
-  ansible.builtin.include_vars: "setup_config.yml"
-
 - name: Copy dev configs
   ansible.builtin.copy:
     dest: "{{ item.dest }}"

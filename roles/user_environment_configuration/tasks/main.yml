@@ -20,9 +20,6 @@
     - { src: mkfile, dest: "{{ ansible_user_dir }}/.local/bin/mkfile" }
     - { src: renamer, dest: "{{ ansible_user_dir }}/.local/bin/renamer" }
 
-- name: Get backup configuration
-  ansible.builtin.include_vars: "backup.yml"
-
 - name: Restore backup
   ansible.builtin.unarchive:
     src: "{{ item.src }}"
