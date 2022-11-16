@@ -85,7 +85,8 @@
     "editor.suggest.localityBonus": false,
     "editor.suggest.insertMode": "replace",
     "editor.suggest.filterGraceful": false,
-    "editor.suggestSelection": "recentlyUsedByPrefix",
+    "editor.suggestSelection": "first",
+    "editor.suggest.matchOnWordStartOnly": true,
     "editor.wordBasedSuggestions": false,
     "editor.quickSuggestionsDelay": 200,
     // Telemetry configuration
@@ -180,6 +181,7 @@
     "redhat.telemetry.enabled": true,
     // vscode.vim
     "vim.autoindent": true,
+    "vim.smartRelativeLine": true,
     "vim.enableNeovim": true,
     "vim.leader": "<space>",
     "vim.statusBarColorControl": true,
@@ -266,6 +268,46 @@
             ],
             "commands": [
                 "editor.unfoldAll"
+            ]
+        },
+        {
+            "before": [
+                "j"
+            ],
+            "after": [
+                "j",
+                "z",
+                "z"
+            ]
+        },
+        {
+            "before": [
+                "k"
+            ],
+            "after": [
+                "k",
+                "z",
+                "z"
+            ]
+        },
+        {
+            "before": [
+                "down"
+            ],
+            "after": [
+                "j",
+                "z",
+                "z"
+            ]
+        },
+        {
+            "before": [
+                "up"
+            ],
+            "after": [
+                "k",
+                "z",
+                "z"
             ]
         }
     ],
