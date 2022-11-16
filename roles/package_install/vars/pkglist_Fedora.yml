@@ -19,6 +19,7 @@ distro_package_list:
   # Developer Tools
   dev_tools:
     - gh
+    - git
     - gitk
 
   # Container management

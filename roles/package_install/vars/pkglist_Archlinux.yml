@@ -23,6 +23,7 @@ distro_package_list:
   # Development Tools
   dev_tools:
     - github-cli
+    - git
 
   # Container management
   container_tools:
