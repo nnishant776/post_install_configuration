@@ -11,3 +11,5 @@ setup_config:
   vscode_setup: false
 
 backup_list:
+  # - src: "{{ ansible_user_dir }}/backup.tar.gz"
+  #   dest: "{{ ansible_user_dir }}"
