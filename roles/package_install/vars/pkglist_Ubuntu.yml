@@ -21,6 +21,18 @@ distro_package_list:
     - git
     - gitk
 
+  # Programming Language Compilers and Runtimes
+  compilers_and_runtimes:
+    - gcc
+    - clang
+    - gdb
+    - lldb
+    - lld
+    - llvm
+    - build-essential
+    - golang
+    - default-jre
+
   # Container Management
   container_tools:
     - docker.io

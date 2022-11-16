@@ -25,6 +25,18 @@ distro_package_list:
     - github-cli
     - git
 
+  # Programming Language Compilers and Runtimes
+  compilers_and_runtimes:
+    - gcc
+    - clang
+    - gdb
+    - lldb
+    - lld
+    - llvm
+    - base-devel
+    - go
+    - jre-openjdk
+
   # Container management
   container_tools:
     - docker
