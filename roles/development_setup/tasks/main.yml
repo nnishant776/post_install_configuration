@@ -18,6 +18,7 @@
   ansible.builtin.command: "{{ ansible_user_dir }}/.local/apps/VSCode-linux-x64/update.sh"
   register: install_vsc
   changed_when: install_vsc.rc != 0
+  when: setup_config['vscode_setup']
 
 - name: Install Visual Studio Code Extensions
   ansible.builtin.command: code --force --install-extension "{{ item }}"
