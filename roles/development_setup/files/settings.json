@@ -24,6 +24,7 @@
     // VS Code Window settings
     "window.menuBarVisibility": "toggle",
     "window.autoDetectColorScheme": true,
+    "window.zoomLevel": 0.75,
     // VS Code File Explorer settings
     "explorer.confirmDragAndDrop": false,
     "explorer.confirmDelete": false,
