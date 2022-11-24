@@ -38,6 +38,7 @@ distro_package_list:
     - golang
     - golang-bin
     - java-latest-openjdk
+    - nodejs
 
   # Container management
   container_tools:
