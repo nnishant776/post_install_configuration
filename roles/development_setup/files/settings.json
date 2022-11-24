@@ -37,6 +37,7 @@
     // VS Code Terminal settings
     "terminal.integrated.fontFamily": "monospace",
     "terminal.integrated.tabs.enabled": true,
+    "terminal.integrated.fontSize": 12,
     // VS Code Extension Manager settings
     "extensions.ignoreRecommendations": true,
     // VS Code Update Manager settings
@@ -51,8 +52,9 @@
     "editor.detectIndentation": true,
     // Fonts and appearance
     "editor.fontFamily": "Droid Sans Mono",
-    "editor.fontSize": 14,
+    "editor.fontSize": 12,
     "editor.renderWhitespace": "boundary",
+    "editor.fontLigatures": true,
     "editor.renderControlCharacters": false,
     "editor.renderFinalNewline": false,
     "editor.lineNumbers": "on",
