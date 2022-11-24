@@ -63,3 +63,17 @@ distro_package_list:
   fonts:
     - mozilla-fira-*
     - fira-code-fonts
+    - adobe-source-code-pro-fonts
+    - adobe-source-sans-pro-fonts
+    - dejavu-fonts-all
+    - google-droid-sans-fonts
+    - google-noto-sans-fonts
+    - google-noto-serif-fonts
+    - google-roboto-fonts
+    - google-roboto-condensed-fonts
+    - google-roboto-mono-fonts
+    - liberation-fonts
+    - liberation-sans-fonts
+    - liberation-mono-fonts
+    - liberation-serif-fonts
+    - dejavu-sans

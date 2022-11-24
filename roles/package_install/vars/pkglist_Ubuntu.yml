@@ -52,3 +52,7 @@ distro_package_list:
   # Font packages
   fonts:
     - fonts-firacode
+    - fonts-dejavu
+    - fonts-noto
+    - fonts-liberation
+    - fonts-liberation2
