@@ -13,8 +13,12 @@ distro_package_list:
     - ibus-table-code
     - iucode-tool
     - microcode_ctl
-    - intltools
+    - intltool
     - d-feet
+    - la-capitaine-cursor-theme
+    - gnome-extension-app
+    - file-roller
+
 
   # Developer Tools
   dev_tools:
