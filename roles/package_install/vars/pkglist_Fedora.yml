@@ -48,7 +48,7 @@ distro_package_list:
   # Multimedia packages
   multimedia:
     - chromium-vaapi
-    - ffmpeg-free
+    - ffmpeg
     - dav1d
     - mozilla-openh264
     - gstreamer1-plugin-libav
@@ -56,13 +56,27 @@ distro_package_list:
     - gstreamer1-plugins-base
     - gstreamer1-plugins-good
     - gstreamer1-plugins-good-extras
-    - gstreamer1-plugins-bad
     - gstreamer1-plugins-bad-free
     - gstreamer1-plugins-bad-free-extras
+    - gstreamer1-plugins-bad-free-zbar
+    - gstreamer1-plugins-bad-freeworld
     - gstreamer1-plugins-ugly
     - gstreamer1-plugins-ugly-free
     - gstreamer1-vaapi
     - gst-entrans
+    - faad2-libs
+    - libde265
+    - fluidsynth-libs
+    - libmatroska
+    - libspatialaudio
+    - libmpcdec
+    - live555
+    - libebml
+    - freeglut
+    - libplacebo
+    - mesa-libGLU
+    - gnome-mpv
+    - kodi
 
   # Font packages
   fonts:
