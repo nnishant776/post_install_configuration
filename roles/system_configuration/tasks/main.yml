@@ -10,7 +10,6 @@
     sysctl_file: "/etc/sysctl.d/99-custom.conf"
   with_items:
     - { name: "vm.swappiness", value: 10 }
-    - { name: "kernel.unprivileged_userns_clone", value: 1 }
     - { name: "user.max_user_namespaces", value: 28633 }
 
 
