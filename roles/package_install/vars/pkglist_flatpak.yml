@@ -1,4 +1,4 @@
 ---
 flatpak_package_list:
   - org.raspberrypi.rpi-imager
-  - tv.kodi.Kodi
+  - com.spotify.Client
