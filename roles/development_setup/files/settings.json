@@ -1,8 +1,6 @@
 {
-    /***************************** VS Code Application Specific Settings *****************************/
-    // VS Code Extension settings
-    "extensions.autoUpdate": false,
-    // VS Code File Handling settings
+    /***************************** Application Specific Settings *****************************/
+    // File Handling settings
     "files.watcherExclude": {
         "**/.cache/**": true,
         "**/.git/objects/**": false,
@@ -21,36 +19,37 @@
     "files.trimTrailingWhitespace": true,
     "files.enableTrash": true,
     "files.encoding": "utf8",
-    // VS Code Window settings
-    "window.menuBarVisibility": "toggle",
-    "window.autoDetectColorScheme": true,
+    // Window settings
     "window.zoomLevel": 0.75,
-    // VS Code File Explorer settings
+    "window.autoDetectColorScheme": true,
+    "window.menuBarVisibility": "toggle",
+    // File Explorer settings
     "explorer.confirmDragAndDrop": false,
     "explorer.confirmDelete": false,
-    // VS Code Git settings
+    // Git settings
     "git.ignoreLegacyWarning": true,
     "diffEditor.codeLens": true,
     "diffEditor.ignoreTrimWhitespace": false,
-    // VS Code Search settings
+    // Search settings
     "search.quickOpen.includeSymbols": true,
-    // VS Code Terminal settings
+    // Terminal settings
     "terminal.integrated.fontFamily": "monospace",
     "terminal.integrated.tabs.enabled": true,
     "terminal.integrated.fontSize": 12,
-    // VS Code Extension Manager settings
+    // Extension Manager settings
+    "extensions.autoUpdate": false,
     "extensions.ignoreRecommendations": true,
-    // VS Code Update Manager settings
+    // Update Manager settings
     "update.mode": "manual",
-    // VS Code Editor settings
-    // Formatting
+    // Editor settings
+    //// Formatting
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true,
     "editor.formatOnSaveMode": "file",
     "editor.insertSpaces": true,
     "editor.tabSize": 4,
     "editor.detectIndentation": true,
-    // Fonts and appearance
+    //// Fonts and appearance
     "editor.fontFamily": "Droid Sans Mono",
     "editor.fontSize": 12,
     "editor.renderWhitespace": "boundary",
@@ -63,7 +62,11 @@
     "editor.guides.highlightActiveIndentation": false,
     "editor.guides.bracketPairsHorizontal": true,
     "editor.guides.indentation": true,
-    // Code assistance
+    "editor.minimap.enabled": false,
+    "editor.cursorSmoothCaretAnimation": true,
+    "editor.wordWrap": "bounded",
+    "editor.wordWrapColumn": 120,
+    //// Code assistance
     "editor.inlayHints.enabled": "offUnlessPressed",
     "editor.suggestOnTriggerCharacters": false,
     "editor.quickSuggestions": {
@@ -100,17 +103,26 @@
     "workbench.editorAssociations": {
         "*.ipynb": "jupyter-notebook"
     },
+    "workbench.startupEditor": "none",
+    "workbench.sideBar.location": "left",
+    "workbench.view.alwaysShowHeaderActions": true,
     /******************************** Extension specific settings ********************************/
     // golang.go
     "go.testFlags": [
         "-v"
     ],
-    "go.enableCodeLens": {
-        "references": true
-    },
+    "go.enableCodeLens": {},
     "go.gotoSymbol.includeGoroot": true,
     "go.gotoSymbol.includeImports": true,
     "go.toolsManagement.autoUpdate": true,
+    "go.installDependenciesWhenBuilding": true,
+    "go.inlayHints.assignVariableTypes": true,
+    "go.inlayHints.compositeLiteralFields": true,
+    "go.inlayHints.compositeLiteralTypes": true,
+    "go.inlayHints.constantValues": true,
+    "go.inlayHints.functionTypeParameters": true,
+    "go.inlayHints.parameterNames": true,
+    "go.inlayHints.rangeVariableTypes": true,
     // rust-lang.rust-analyzer
     "rust-analyzer.cargo.allFeatures": true,
     "rust-analyzer.checkOnSave.command": "clippy",
@@ -218,7 +230,8 @@
         "<C-d>": false,
         "<C-w>": false,
         "<C-f>": false,
-        "<C-o>": false
+        "<C-o>": false,
+        "<C-b>": false
     },
     "vim.insertModeKeyBindingsNonRecursive": [
         {

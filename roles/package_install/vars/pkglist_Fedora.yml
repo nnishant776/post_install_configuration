@@ -19,7 +19,6 @@ distro_package_list:
     - gnome-extensions-app
     - file-roller
 
-
   # Developer Tools
   dev_tools:
     - gh
