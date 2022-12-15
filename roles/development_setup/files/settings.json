@@ -48,7 +48,7 @@
     "editor.formatOnSaveMode": "file",
     "editor.insertSpaces": true,
     "editor.tabSize": 4,
-    "editor.detectIndentation": true,
+    "editor.detectIndentation": false,
     //// Fonts and appearance
     "editor.fontFamily": "Droid Sans Mono",
     "editor.fontSize": 12,
@@ -66,6 +66,9 @@
     "editor.cursorSmoothCaretAnimation": true,
     "editor.wordWrap": "bounded",
     "editor.wordWrapColumn": 120,
+    "editor.rulers": [
+        120
+    ],
     //// Code assistance
     "editor.inlayHints.enabled": "offUnlessPressed",
     "editor.suggestOnTriggerCharacters": false,
@@ -74,6 +77,9 @@
         "comments": "off",
         "strings": "off"
     },
+    "editor.quickSuggestionsDelay": 250,
+    "editor.suggestSelection": "first",
+    "editor.wordBasedSuggestions": false,
     "editor.suggest.showWords": false,
     "editor.suggest.showColors": false,
     "editor.suggest.showCustomcolors": false,
@@ -91,10 +97,13 @@
     "editor.suggest.localityBonus": false,
     "editor.suggest.insertMode": "replace",
     "editor.suggest.filterGraceful": false,
-    "editor.suggestSelection": "first",
     "editor.suggest.matchOnWordStartOnly": true,
-    "editor.wordBasedSuggestions": false,
-    "editor.quickSuggestionsDelay": 200,
+    "breadcrumbs.showEvents": false,
+    "breadcrumbs.showNull": false,
+    "breadcrumbs.showStrings": false,
+    "breadcrumbs.showKeys": false,
+    "breadcrumbs.showObjects": false,
+    "breadcrumbs.showTypeParameters": false,
     // Telemetry configuration
     "telemetry.telemetryLevel": "off",
     // Workbench settings
@@ -131,15 +140,16 @@
     // vadimcn.vscode-lldb
     // eamodio.gitlens
     "gitlens.currentLine.enabled": false,
-    "gitlens.hovers.currentLine.over": "line",
     "gitlens.advanced.commitOrdering": "topo",
+    "gitlens.blame.avatars": false,
     "gitlens.codeLens.authors.enabled": false,
     "gitlens.codeLens.recentChange.enabled": false,
+    "gitlens.hovers.enabled": false,
     "gitlens.hovers.annotations.changes": false,
     "gitlens.hovers.annotations.details": false,
-    "gitlens.hovers.annotations.enabled": false,
+    "gitlens.hovers.annotations.enabled": true,
     "gitlens.hovers.currentLine.changes": false,
-    "gitlens.blame.avatars": false,
+    "gitlens.hovers.currentLine.over": "line",
     "gitlens.hovers.avatars": false,
     "gitlens.views.lineHistory.avatars": false,
     "gitlens.views.tags.avatars": false,
@@ -226,13 +236,6 @@
     "vim.statusBarColors.easymotionmode": "#007ACC",
     "vim.statusBarColors.easymotioninputmoke": "#007ACC",
     "vim.statusBarColors.surroundinputmode": "#007ACC",
-    "vim.handleKeys": {
-        "<C-d>": false,
-        "<C-w>": false,
-        "<C-f>": false,
-        "<C-o>": false,
-        "<C-b>": false
-    },
     "vim.insertModeKeyBindingsNonRecursive": [
         {
             "before": [
@@ -244,6 +247,7 @@
         }
     ],
     "vim.normalModeKeyBindingsNonRecursive": [
+        // Code folding
         {
             "before": [
                 "<leader>",
@@ -286,6 +290,7 @@
                 "editor.unfoldAll"
             ]
         },
+        // Move viewport with cursor
         {
             "before": [
                 "j"
@@ -324,6 +329,43 @@
                 "k",
                 "z",
                 "z"
+            ]
+        },
+        // Define vim bindings to VSCode facilities
+        {
+            "before": [
+                "<leader>",
+                "e"
+            ],
+            "commands": [
+                "workbench.view.explorer"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "g"
+            ],
+            "commands": [
+                "workbench.view.scm"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "b"
+            ],
+            "commands": [
+                "workbench.action.toggleSidebarVisibility"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "d"
+            ],
+            "commands": [
+                "workbench.actions.view.toggleProblems"
             ]
         }
     ],
