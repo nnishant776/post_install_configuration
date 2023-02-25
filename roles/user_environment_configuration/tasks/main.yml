@@ -1,13 +1,9 @@
 ---
 - name: Configure vim/neovim
-  ansible.builtin.copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    mode: "0644"
-  with_items:
-    - { src: init.vim, dest: "{{ ansible_user_dir }}/.config/nvim/" }
-    - { src: .vimrc, dest: "{{ ansible_user_dir }}/" }
-    - { src: plug.vim, dest: "{{ ansible_user_dir }}/.local/share/nvim/site/autoload/" }
+  run: |
+    git clone --recursive https://github.com/NvChad/NvChad ~/.config/nvim
+    mkdir -p ~/.config/nvim/lua
+    git clone --recursive https://github.com/nnishant776/init.lua ~/.config/nvim/lua/custom
 
 - name: Install custom utilities
   ansible.builtin.copy:
