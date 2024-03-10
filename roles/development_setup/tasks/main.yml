@@ -56,3 +56,13 @@
     - ZhangYue.rust-mod-generator
     - asvetliakov.vscode-neovim
   when: setup_config['vscode_setup']
+
+- name: Install dev build tools and runtimes
+  ansible.builtin.command: |
+    podman pull docker.io/golang:latest
+    podman pull docker.io/rust:latest
+
+  register: install_build_runtime
+  changed_when: install_build_runtime.rc != 0
+  when: item.name == "container_tools" and item.install
+  loop: "{{ install_candidates }}"
