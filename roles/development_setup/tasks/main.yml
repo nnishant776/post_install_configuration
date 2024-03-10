@@ -51,9 +51,8 @@
     - twxs.cmake
     - usernamehw.errorlens
     - vadimcn.vscode-lldb
-    - VisualStudioExptTeam.vscodeintellicode
     - vsciot-vscode.vscode-arduino
-    - vscodevim.vim
     - xaver.clang-format
     - ZhangYue.rust-mod-generator
+    - asvetliakov.vscode-neovim
   when: setup_config['vscode_setup']
