@@ -1,9 +1,7 @@
 ---
 - name: Configure vim/neovim
   run: |
-    git clone --recursive https://github.com/NvChad/NvChad ~/.config/nvim
-    mkdir -p ~/.config/nvim/lua
-    git clone --recursive https://github.com/nnishant776/init.lua ~/.config/nvim/lua/custom
+    git clone --recursive https://github.com/nnishant776/init.lua ~/.config/nvim -b main
 
 - name: Install custom utilities
   ansible.builtin.copy:
