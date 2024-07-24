@@ -7,16 +7,15 @@ distro_package_list:
     - python3-pip
     - p7zip
     - p7zip-plugins
-    - nethogs
-    - feh
     - lm_sensors
     - ibus-table-code
     - iucode-tool
     - microcode_ctl
     - intltool
     - d-feet
-    - la-capitaine-cursor-theme
+    - breeze-cursor-theme
     - gnome-extensions-app
+    - gnome-tweaks
     - file-roller
 
   # Developer Tools
@@ -46,9 +45,9 @@ distro_package_list:
 
   # Multimedia packages
   multimedia:
-    - chromium-vaapi
-    - ffmpeg-free
+    - ffmpeg
     - dav1d
+    - mpg123
     - mozilla-openh264
     - gstreamer1-plugin-libav
     - gstreamer1-plugin-openh264
@@ -62,7 +61,6 @@ distro_package_list:
     - gstreamer1-plugins-ugly
     - gstreamer1-plugins-ugly-free
     - gstreamer1-vaapi
-    - gst-entrans
     - faad2-libs
     - libde265
     - fluidsynth-libs
@@ -75,7 +73,23 @@ distro_package_list:
     - libplacebo
     - mesa-libGLU
     - gnome-mpv
-    - kodi
+    - pipewire-codec-aptx
+    - libldac
+    - fdk-aac
+    - fdk-aac-free
+    - liba52
+    - faac
+    - vlc
+    - x264
+    - x265
+    - pipewire-gstreamer
+    - pipewire-alsa
+    - pipewire-libs
+    - pipewire-plugin-jack
+    - pipewire-plugin-libcamera
+    - pipewire-plugin-vulkan
+    - pipewire-v4l2
+    - pipewire-utils
 
   # Font packages
   fonts:
