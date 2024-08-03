@@ -11,6 +11,7 @@
   with_items:
     - { name: "vm.swappiness", value: 10 }
     - { name: "user.max_user_namespaces", value: 28633 }
+    - { name: "kernel.nmi_watchdog", value: 0 }
 
 
 - name: Remove subuid/subgid configuration for current user if present
