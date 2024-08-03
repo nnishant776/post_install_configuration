@@ -5,18 +5,40 @@ distro_package_list:
     - fuse-sshfs
     - openssh-server
     - python3-pip
-    - p7zip
     - p7zip-plugins
     - lm_sensors
     - ibus-table-code
     - iucode-tool
     - microcode_ctl
     - intltool
-    - d-feet
-    - breeze-cursor-theme
+    - efitools
+    - wev
+    - apmd
+    - nfs-utils
+    - nfsv4-client-utils
+    - sssd-nfs-idmap
+    - gvfs-nfs
+    - rpcbind
+
+  # GUI Tools
+  gui_apps:
     - gnome-extensions-app
     - gnome-tweaks
     - file-roller
+    - blueman
+    - d-feet
+    - gnome-shell-extension-appindicator
+    - dconf-editor
+    - celluloid
+
+  # Themes
+  themes:
+    - breeze-cursor-theme
+    - adw-gtk3-theme
+
+  # Desktop environments
+  desktop_environments:
+    - "@Sway Window Manager"
 
   # Developer Tools
   dev_tools:
@@ -44,7 +66,7 @@ distro_package_list:
     - docker
 
   # Multimedia packages
-  multimedia:
+  multimedia_plugins:
     - ffmpeg
     - dav1d
     - mpg123
@@ -72,7 +94,6 @@ distro_package_list:
     - freeglut
     - libplacebo
     - mesa-libGLU
-    - gnome-mpv
     - pipewire-codec-aptx
     - libldac
     - fdk-aac
@@ -90,6 +111,12 @@ distro_package_list:
     - pipewire-plugin-vulkan
     - pipewire-v4l2
     - pipewire-utils
+    - alsa-firmware
+    - alsa-plugins-jack
+    - aalib-libs
+    - SDL_image
+    - alsa-plugins-a52
+    - libdav1d
 
   # Font packages
   fonts:

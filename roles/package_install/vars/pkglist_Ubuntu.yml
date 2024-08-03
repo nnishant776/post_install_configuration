@@ -5,15 +5,31 @@ distro_package_list:
     - sshfs
     - openssh-server
     - python3-pip
-    - p7zip
     - p7zip-full
-    - nethogs
-    - feh
     - lm-sensors
     - ibus-table-code
     - iucode-tool
     - intltool
+
+  # GUI Tools
+  gui_apps:
+    - gnome-shell-extensions
+    - gnome-tweaks
+    - file-roller
+    - blueman
     - d-feet
+    - gnome-shell-extension-appindicator
+    - dconf-editor
+    - celluloid
+
+  # Themes
+  themes:
+    - breeze-cursor-theme
+    # - adw-gtk3-theme
+
+  # Desktop environments
+  desktop_environments:
+    - vanilla-gnome-desktop
 
   # Developer Tools
   dev_tools:
@@ -39,7 +55,7 @@ distro_package_list:
     - podman
 
   # Multimedia packages
-  multimedia:
+  multimedia_plugins:
     - ffmpeg
     - dav1d
     - gstreamer1.0-libav
@@ -48,6 +64,8 @@ distro_package_list:
     - gstreamer1.0-plugins-bad
     - gstreamer1.0-plugins-ugly
     - gstreamer1.0-vaapi
+    - x264
+    - x265
 
   # Font packages
   fonts:

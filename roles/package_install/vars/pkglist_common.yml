@@ -15,3 +15,8 @@ common_package_list:
   - jq
   - rsync
   - tmux
+  - powertop
+  - unzip
+  - unrar
+  - p7zip
+  - arp-scan
