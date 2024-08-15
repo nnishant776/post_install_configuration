@@ -1,29 +1,27 @@
----
 - name: Install custom utilities
   when: userenv_config['categories']['applications']
   ansible.builtin.copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    mode: "0755"
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '0755'
   with_items:
-    - { src: dirsize, dest: "{{ ansible_user_dir }}/.local/bin/" }
-    - { src: git_starter, dest: "{{ ansible_user_dir }}/.local/bin/" }
-    - { src: mkfile, dest: "{{ ansible_user_dir }}/.local/bin/" }
-    - { src: renamer, dest: "{{ ansible_user_dir }}/.local/bin/" }
+  - {src: dirsize, dest: '{{ ansible_user_dir }}/.local/bin/'}
+  - {src: git_starter, dest: '{{ ansible_user_dir }}/.local/bin/'}
+  - {src: mkfile, dest: '{{ ansible_user_dir }}/.local/bin/'}
+  - {src: renamer, dest: '{{ ansible_user_dir }}/.local/bin/'}
 
 - name: Configure desktop
   when: userenv_config['categories']['desktop']
   block:
-    - name: Load dconf settings
-      ansible.builtin.shell: |
-        cat dconf.conf | dconf load /
+  - name: Load dconf settings
+    ansible.builtin.shell: |
+      cat dconf.conf | dconf load /
 
 - name: Restore backup
   ansible.builtin.unarchive:
-    src: "{{ item.src }}"
-    owner: "{{ ansible_effective_user_id }}"
-    group: "{{ ansible_effective_group_id }}"
-    dest: "{{ item.dest }}"
-  with_items:
-    "{{ backup_list }}"
+    src: '{{ item.src }}'
+    owner: '{{ ansible_effective_user_id }}'
+    group: '{{ ansible_effective_group_id }}'
+    dest: '{{ item.dest }}'
+  with_items: '{{ backup_list }}'
   when: backup_list

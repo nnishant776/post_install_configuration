@@ -1,179 +1,178 @@
----
 distro_package_list:
   # System-Utility packages
   system_utils:
     shell: false
     install_command: dnf install -y --best --allowerasing
     list:
-      - fuse-sshfs
-      - openssh-server
-      - python3-pip
-      - p7zip-plugins
-      - lm_sensors
-      - ibus-table-code
-      - iucode-tool
-      - microcode_ctl
-      - intltool
-      - efitools
-      - wev
-      - apmd
-      - nfs-utils
-      - nfsv4-client-utils
-      - sssd-nfs-idmap
-      - gvfs-nfs
-      - rpcbind
+    - fuse-sshfs
+    - openssh-server
+    - python3-pip
+    - p7zip-plugins
+    - lm_sensors
+    - ibus-table-code
+    - iucode-tool
+    - microcode_ctl
+    - intltool
+    - efitools
+    - wev
+    - apmd
+    - nfs-utils
+    - nfsv4-client-utils
+    - sssd-nfs-idmap
+    - gvfs-nfs
+    - rpcbind
 
   # GUI Tools
   gui_apps:
     shell: false
     install_command: dnf install -y --best --allowerasing
     list:
-      - gnome-extensions-app
-      - gnome-tweaks
-      - file-roller
-      - blueman
-      - d-feet
-      - gnome-shell-extension-appindicator
-      - dconf-editor
-      - celluloid
+    - gnome-extensions-app
+    - gnome-tweaks
+    - file-roller
+    - blueman
+    - d-feet
+    - gnome-shell-extension-appindicator
+    - dconf-editor
+    - celluloid
 
   # Themes
   themes:
     shell: false
     install_command: dnf install -y --best --allowerasing
     list:
-      - breeze-cursor-theme
-      - adw-gtk3-theme
+    - breeze-cursor-theme
+    - adw-gtk3-theme
 
   # Desktop environments
   desktop_environments:
     shell: false
     install_command: dnf install -y --best --allowerasing
     list:
-      - sway
-      - swaybg
-      - swayidle
-      - swaylock
-      - dunst
-      - foot
-      - grim
-      - polkit
-      - slurp
-      - waybar
-      - xdg-desktop-portal-wlr
+    - sway
+    - swaybg
+    - swayidle
+    - swaylock
+    - dunst
+    - foot
+    - grim
+    - polkit
+    - slurp
+    - waybar
+    - xdg-desktop-portal-wlr
 
   # Developer Tools
   dev_tools:
     shell: false
     install_command: dnf install -y --best --allowerasing
     list:
-      - gh
-      - git
-      - gitk
+    - gh
+    - git
+    - gitk
 
   # Programming Language Compilers and Runtimes
   compilers_and_sdks:
     shell: false
     install_command: dnf install -y --best --allowerasing
     list:
-      - gcc
-      - clang
-      - gdb
-      - lldb
-      - lld
-      - llvm
-      - "'@C Development Tools and Libraries'"
-      - golang
-      - golang-bin
-      - java-latest-openjdk
-      - nodejs
+    - gcc
+    - clang
+    - gdb
+    - lldb
+    - lld
+    - llvm
+    - "'@C Development Tools and Libraries'"
+    - golang
+    - golang-bin
+    - java-latest-openjdk
+    - nodejs
 
   # Container management
   container_runtimes:
     shell: false
     install_command: dnf install -y --best --allowerasing
     list:
-      - "'@Container Management'"
-      - docker
+    - "'@Container Management'"
+    - docker
 
   # Multimedia packages
   multimedia_plugins:
     shell: false
     install_command: dnf install -y --best --allowerasing
     list:
-      - ffmpeg
-      - dav1d
-      - mpg123
-      - mozilla-openh264
-      - gstreamer1-plugin-libav
-      - gstreamer1-plugin-openh264
-      - gstreamer1-plugins-base
-      - gstreamer1-plugins-good
-      - gstreamer1-plugins-good-extras
-      - gstreamer1-plugins-bad-free
-      - gstreamer1-plugins-bad-free-extras
-      - gstreamer1-plugins-bad-free-zbar
-      - gstreamer1-plugins-bad-freeworld
-      - gstreamer1-plugins-ugly
-      - gstreamer1-plugins-ugly-free
-      - gstreamer1-vaapi
-      - faad2-libs
-      - libde265
-      - libmatroska
-      - libspatialaudio
-      - libmpcdec
-      - live555
-      - fluidsynth-libs
-      - libebml
-      - freeglut
-      - libplacebo
-      - mesa-libGLU
-      - pipewire-codec-aptx
-      - libldac
-      - fdk-aac
-      - fdk-aac-free
-      - liba52
-      - faac
-      - vlc
-      - x264
-      - x265
-      - pipewire-gstreamer
-      - pipewire-alsa
-      - pipewire-libs
-      - pipewire-plugin-jack
-      - pipewire-plugin-libcamera
-      - pipewire-plugin-vulkan
-      - pipewire-v4l2
-      - pipewire-utils
-      - alsa-firmware
-      - alsa-plugins-jack
-      - aalib-libs
-      - SDL_image
-      - alsa-plugins-a52
-      - libdav1d
+    - ffmpeg
+    - dav1d
+    - mpg123
+    - mozilla-openh264
+    - gstreamer1-plugin-libav
+    - gstreamer1-plugin-openh264
+    - gstreamer1-plugins-base
+    - gstreamer1-plugins-good
+    - gstreamer1-plugins-good-extras
+    - gstreamer1-plugins-bad-free
+    - gstreamer1-plugins-bad-free-extras
+    - gstreamer1-plugins-bad-free-zbar
+    - gstreamer1-plugins-bad-freeworld
+    - gstreamer1-plugins-ugly
+    - gstreamer1-plugins-ugly-free
+    - gstreamer1-vaapi
+    - faad2-libs
+    - libde265
+    - libmatroska
+    - libspatialaudio
+    - libmpcdec
+    - live555
+    - fluidsynth-libs
+    - libebml
+    - freeglut
+    - libplacebo
+    - mesa-libGLU
+    - pipewire-codec-aptx
+    - libldac
+    - fdk-aac
+    - fdk-aac-free
+    - liba52
+    - faac
+    - vlc
+    - x264
+    - x265
+    - pipewire-gstreamer
+    - pipewire-alsa
+    - pipewire-libs
+    - pipewire-plugin-jack
+    - pipewire-plugin-libcamera
+    - pipewire-plugin-vulkan
+    - pipewire-v4l2
+    - pipewire-utils
+    - alsa-firmware
+    - alsa-plugins-jack
+    - aalib-libs
+    - SDL_image
+    - alsa-plugins-a52
+    - libdav1d
 
   # Font packages
   fonts:
     shell: false
     install_command: dnf install -y --best --allowerasing
     list:
-      - mozilla-fira-*
-      - fira-code-fonts
-      - adobe-source-code-pro-fonts
-      - adobe-source-sans-pro-fonts
-      - dejavu-fonts-all
-      - google-droid-sans-fonts
-      - google-noto-sans-fonts
-      - google-noto-serif-fonts
-      - google-roboto-fonts
-      - google-roboto-condensed-fonts
-      - google-roboto-mono-fonts
-      - liberation-fonts
-      - liberation-sans-fonts
-      - liberation-mono-fonts
-      - liberation-serif-fonts
-      - dejavu-sans-fonts
-      - dejavu-sans-mono-fonts
+    - mozilla-fira-*
+    - fira-code-fonts
+    - adobe-source-code-pro-fonts
+    - adobe-source-sans-pro-fonts
+    - dejavu-fonts-all
+    - google-droid-sans-fonts
+    - google-noto-sans-fonts
+    - google-noto-serif-fonts
+    - google-roboto-fonts
+    - google-roboto-condensed-fonts
+    - google-roboto-mono-fonts
+    - liberation-fonts
+    - liberation-sans-fonts
+    - liberation-mono-fonts
+    - liberation-serif-fonts
+    - dejavu-sans-fonts
+    - dejavu-sans-mono-fonts
 
   # TODO: Remove duplication
   # Cluster creation and management tools
@@ -181,24 +180,24 @@ distro_package_list:
     shell: true
     install_command:
     list:
-      - |
-        remote_version=$(echo "$(gh api https://api.github.com/repos/k3d-io/k3d/releases/latest | jq -r '.tag_name')")
-        if command -v /usr/local/bin/k3d 2>&1 > /dev/null; then
-          installed_version=$(k3d version | cut -d ' ' -f 3 | head -n 1)
-          if [ "$remote_version" = "$installed_version" ]; then
-            exit 0
-          fi
+    - |
+      remote_version=$(echo "$(gh api https://api.github.com/repos/k3d-io/k3d/releases/latest | jq -r '.tag_name')")
+      if command -v /usr/local/bin/k3d 2>&1 > /dev/null; then
+        installed_version=$(k3d version | cut -d ' ' -f 3 | head -n 1)
+        if [ "$remote_version" = "$installed_version" ]; then
+          exit 0
         fi
-        curl -G -L -o /usr/local/bin/k3d https://github.com/k3d-io/k3d/releases/download/$remote_version/k3d-linux-$(uname -m | sed 's/x86_/amd/g')
-        chmod 0755 /usr/local/bin/k3d
+      fi
+      curl -G -L -o /usr/local/bin/k3d https://github.com/k3d-io/k3d/releases/download/$remote_version/k3d-linux-$(uname -m | sed 's/x86_/amd/g')
+      chmod 0755 /usr/local/bin/k3d
 
-      - |
-        remote_version=$(curl -G -L -s https://dl.k8s.io/release/stable.txt)
-        if command -v /usr/local/bin/kubectl 2>&1 > /dev/null; then
-          installed_version=$(kubectl version 2>/dev/null | head -n 1 | cut -d ':' -f 2 | sed 's/\s\+//g')
-          if [ "$remote_version" = "$installed_version" ]; then
-            exit 0
-          fi
+    - |
+      remote_version=$(curl -G -L -s https://dl.k8s.io/release/stable.txt)
+      if command -v /usr/local/bin/kubectl 2>&1 > /dev/null; then
+        installed_version=$(kubectl version 2>/dev/null | head -n 1 | cut -d ':' -f 2 | sed 's/\s\+//g')
+        if [ "$remote_version" = "$installed_version" ]; then
+          exit 0
         fi
-        curl -G -L -o /usr/local/bin/kubectl https://dl.k8s.io/release/$remote_version/bin/linux/$(uname -m | sed 's/x86_/amd/g')/kubectl
-        chmod 0755 /usr/local/bin/kubectl
+      fi
+      curl -G -L -o /usr/local/bin/kubectl https://dl.k8s.io/release/$remote_version/bin/linux/$(uname -m | sed 's/x86_/amd/g')/kubectl
+      chmod 0755 /usr/local/bin/kubectl

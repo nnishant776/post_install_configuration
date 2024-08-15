@@ -1,22 +1,21 @@
----
 common_package_list:
-  - nload
-  - htop
-  - git
-  - aria2
-  - neovim
-  - tree
-  - firefox
-  - flatpak
-  - nethogs
-  - feh
-  - meld
-  - make
-  - jq
-  - rsync
-  - tmux
-  - powertop
-  - unzip
-  - unrar
-  - p7zip
-  - arp-scan
+- nload
+- htop
+- git
+- aria2
+- neovim
+- tree
+- firefox
+- flatpak
+- nethogs
+- feh
+- meld
+- make
+- jq
+- rsync
+- tmux
+- powertop
+- unzip
+- unrar
+- p7zip
+- arp-scan

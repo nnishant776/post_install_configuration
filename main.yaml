@@ -1,46 +1,45 @@
----
 - name: Start post install configuration
   hosts: localhost
   connection: local
 
   tasks:
-    - name: Dump hostvars
-      tags:
-        - never
-        - debug
-      ansible.builtin.copy:
-        content: var="{{ hostvars[inventory_hostname] | to_nice_json }}"
-        dest: /tmp/dump.json
-        mode: "0644"
+  - name: Dump hostvars
+    tags:
+    - never
+    - debug
+    ansible.builtin.copy:
+      content: var="{{ hostvars[inventory_hostname] | to_nice_json }}"
+      dest: /tmp/dump.json
+      mode: '0644'
 
-    - name: Package install
-      tags: package_install
-      ansible.builtin.include_role:
-        name: package_install
-        apply:
-          tags: package_install
-      when: package_install['enabled']
+  - name: Package install
+    tags: package_install
+    ansible.builtin.include_role:
+      name: package_install
+      apply:
+        tags: package_install
+    when: package_install['enabled']
 
-    - name: System configuration
-      tags: system_config
-      ansible.builtin.include_role:
-        name: system_configuration
-        apply:
-          tags: system_config
-      when: system_config['enabled']
+  - name: System configuration
+    tags: system_config
+    ansible.builtin.include_role:
+      name: system_configuration
+      apply:
+        tags: system_config
+    when: system_config['enabled']
 
-    - name: User environment configuration
-      tags: userenv_config
-      ansible.builtin.include_role:
-        name: user_environment_configuration
-        apply:
-          tags: userenv_config
-      when: userenv_config['enabled']
+  - name: User environment configuration
+    tags: userenv_config
+    ansible.builtin.include_role:
+      name: user_environment_configuration
+      apply:
+        tags: userenv_config
+    when: userenv_config['enabled']
 
-    - name: Development Setup
-      tags: dev_setup
-      ansible.builtin.include_role:
-        name: development_setup
-        apply:
-          tags: dev_setup
-      when: development_setup['enabled']
+  - name: Development Setup
+    tags: dev_setup
+    ansible.builtin.include_role:
+      name: development_setup
+      apply:
+        tags: dev_setup
+    when: development_setup['enabled']

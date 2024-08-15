@@ -1,50 +1,49 @@
----
 distro_package_list:
   # System-Utility packages
   system_utils:
     shell: false
     install_command: pacman -Syu
     list:
-      - sshfs
-      - openssh
-      - python-pip
-      - lm_sensors
-      - ibus-table
-      - iucode-tool
-      - intel-ucode
-      - intltool
-      - tar
-      - gzip
-      - unzip
-      - unrar
-      - zstd
-      - efitools
-      - wev
-      - nfs-utils
-      - gvfs-nfs
-      - rpcbind
-      - nfsidmap
+    - sshfs
+    - openssh
+    - python-pip
+    - lm_sensors
+    - ibus-table
+    - iucode-tool
+    - intel-ucode
+    - intltool
+    - tar
+    - gzip
+    - unzip
+    - unrar
+    - zstd
+    - efitools
+    - wev
+    - nfs-utils
+    - gvfs-nfs
+    - rpcbind
+    - nfsidmap
 
   # GUI Tools
   gui_apps:
     shell: false
     install_command: pacman -Syu
     list:
-      - gnome-shell-extensions
-      - gnome-tweaks
-      - file-roller
-      - blueman
-      - gnome-shell-extension-appindicator
-      - dconf
-      - dconf-editor
-      - celluloid
+    - gnome-shell-extensions
+    - gnome-tweaks
+    - file-roller
+    - blueman
+    - gnome-shell-extension-appindicator
+    - dconf
+    - dconf-editor
+    - celluloid
 
   # Themes
   themes:
     shell: false
     install_command: pacman -Syu
     list:
-      - capitaine-cursors
+    - capitaine-cursors
     # - adw-gtk3-theme
 
   # Desktop environments
@@ -52,92 +51,92 @@ distro_package_list:
     shell: false
     install_command: pacman -Syu
     list:
-      - sway
-      - swaybg
-      - swayidle
-      - swayimg
-      - swaylock
-      - sway-contrib
-      - waybar
-      - wf-recorder
-      - wofi
-      - slurp
-      - grim
-      - rofi-wayland
+    - sway
+    - swaybg
+    - swayidle
+    - swayimg
+    - swaylock
+    - sway-contrib
+    - waybar
+    - wf-recorder
+    - wofi
+    - slurp
+    - grim
+    - rofi-wayland
 
   # Development Tools
   dev_tools:
     shell: false
     install_command: pacman -Syu
     list:
-      - github-cli
-      - git
+    - github-cli
+    - git
 
   # Programming Language Compilers and Runtimes
   compilers_and_sdks:
     shell: false
     install_command: pacman -Syu
     list:
-      - gcc
-      - clang
-      - gdb
-      - lldb
-      - lld
-      - llvm
-      - base-devel
-      - go
-      - jre-openjdk
-      - nodejs
+    - gcc
+    - clang
+    - gdb
+    - lldb
+    - lld
+    - llvm
+    - base-devel
+    - go
+    - jre-openjdk
+    - nodejs
 
   # Container management
   container_runtimes:
     shell: false
     install_command: pacman -Syu
     list:
-      - docker
-      - podman
-      - slirp4netns
+    - docker
+    - podman
+    - slirp4netns
 
   # Multimedia packages
   multimedia_plugins:
     shell: false
     install_command: pacman -Syu
     list:
-      - ffmpeg
-      - gst-libav
-      - gst-plugin-va
-      - gst-plugins-base
-      - gst-plugins-good
-      - gst-plugins-bad
-      - gst-plugins-ugly
-      - gstreamer
-      - gstreamer-vaapi
-      - pipewire
-      - pipewire-audio
-      - pipewire-jack
-      - pipewire-pulse
-      - pipewire-v4l2
-      - wireplumber
-      - libfreeaptx
-      - libldac
-      - faad2
-      - fdkaac
-      - alsa-firmware
-      - alsa-plugins
-      - a52dec
-      - x264
-      - x265
-      - libmatroska
-      - vulkan-intel
-      - vulkan-radeon
+    - ffmpeg
+    - gst-libav
+    - gst-plugin-va
+    - gst-plugins-base
+    - gst-plugins-good
+    - gst-plugins-bad
+    - gst-plugins-ugly
+    - gstreamer
+    - gstreamer-vaapi
+    - pipewire
+    - pipewire-audio
+    - pipewire-jack
+    - pipewire-pulse
+    - pipewire-v4l2
+    - wireplumber
+    - libfreeaptx
+    - libldac
+    - faad2
+    - fdkaac
+    - alsa-firmware
+    - alsa-plugins
+    - a52dec
+    - x264
+    - x265
+    - libmatroska
+    - vulkan-intel
+    - vulkan-radeon
 
   # Font packages
   fonts:
     shell: false
     install_command: pacman -Syu
     list:
-      - woff-fira-code
-      - woff2-fira-code
+    - woff-fira-code
+    - woff2-fira-code
 
   # TODO: Remove duplication
   # Cluster creation and management tools
@@ -145,24 +144,24 @@ distro_package_list:
     shell: true
     install_command:
     list:
-      - |
-        remote_version=$(echo "$(gh api https://api.github.com/repos/k3d-io/k3d/releases/latest | jq -r '.tag_name')")
-        if command -v /usr/local/bin/k3d 2>&1 > /dev/null; then
-          installed_version=$(k3d version | cut -d ' ' -f 3 | head -n 1)
-          if [ "$remote_version" = "$installed_version" ]; then
-            exit 0
-          fi
+    - |
+      remote_version=$(echo "$(gh api https://api.github.com/repos/k3d-io/k3d/releases/latest | jq -r '.tag_name')")
+      if command -v /usr/local/bin/k3d 2>&1 > /dev/null; then
+        installed_version=$(k3d version | cut -d ' ' -f 3 | head -n 1)
+        if [ "$remote_version" = "$installed_version" ]; then
+          exit 0
         fi
-        curl -G -L -o /usr/local/bin/k3d https://github.com/k3d-io/k3d/releases/download/$remote_version/k3d-linux-$(uname -m | sed 's/x86_/amd/g')
-        chmod 0755 /usr/local/bin/k3d
+      fi
+      curl -G -L -o /usr/local/bin/k3d https://github.com/k3d-io/k3d/releases/download/$remote_version/k3d-linux-$(uname -m | sed 's/x86_/amd/g')
+      chmod 0755 /usr/local/bin/k3d
 
-      - |
-        remote_version=$(curl -G -L -s https://dl.k8s.io/release/stable.txt)
-        if command -v /usr/local/bin/kubectl 2>&1 > /dev/null; then
-          installed_version=$(kubectl version 2>/dev/null | head -n 1 | cut -d ':' -f 2 | sed 's/\s\+//g')
-          if [ "$remote_version" = "$installed_version" ]; then
-            exit 0
-          fi
+    - |
+      remote_version=$(curl -G -L -s https://dl.k8s.io/release/stable.txt)
+      if command -v /usr/local/bin/kubectl 2>&1 > /dev/null; then
+        installed_version=$(kubectl version 2>/dev/null | head -n 1 | cut -d ':' -f 2 | sed 's/\s\+//g')
+        if [ "$remote_version" = "$installed_version" ]; then
+          exit 0
         fi
-        curl -G -L -o /usr/local/bin/kubectl https://dl.k8s.io/release/$remote_version/bin/linux/$(uname -m | sed 's/x86_/amd/g')/kubectl
-        chmod 0755 /usr/local/bin/kubectl
+      fi
+      curl -G -L -o /usr/local/bin/kubectl https://dl.k8s.io/release/$remote_version/bin/linux/$(uname -m | sed 's/x86_/amd/g')/kubectl
+      chmod 0755 /usr/local/bin/kubectl

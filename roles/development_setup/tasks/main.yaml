@@ -1,91 +1,91 @@
----
 - name: Import credentials configuration
-  ansible.builtin.include_vars: "credentials_config.yaml"
+  ansible.builtin.include_vars: credentials_config.yaml
 
 - name: Setup IDEs
-  when: 
-    - development_setup['categories']['ides']
+  when:
+  - development_setup['categories']['ides']
   block:
-    - name: Copy IDE configs
-      ansible.builtin.copy:
-        dest: "{{ item.dest }}"
-        src: "{{ item.src }}"
-        mode: "{{ item.mode }}"
-      with_items:
-        - { src: "settings.json", dest: "{{ ansible_user_dir }}/.config/Code/User/", mode: "0644" }
-        - { src: "keybindings.json", dest: "{{ ansible_user_dir }}/.config/Code/User/", mode: "0644" }
-        - { src: "update.sh", dest: "{{ ansible_user_dir }}/.local/apps/VSCode-linux-x64/", mode: "0755" }
+  - name: Copy IDE configs
+    ansible.builtin.copy:
+      dest: '{{ item.dest }}'
+      src: '{{ item.src }}'
+      mode: '{{ item.mode }}'
+    with_items:
+    - {src: settings.json, dest: '{{ ansible_user_dir }}/.config/Code/User/', mode: '0644'}
+    - {src: keybindings.json, dest: '{{ ansible_user_dir }}/.config/Code/User/', mode: '0644'}
+    - {src: update.sh, dest: '{{ ansible_user_dir }}/.local/apps/VSCode-linux-x64/', mode: '0755'}
 
-    - name: Install Visual Studio Code
-      ansible.builtin.command: "{{ ansible_user_dir }}/.local/apps/VSCode-linux-x64/update.sh"
-      register: install_vsc
-      changed_when: install_vsc.rc != 0
+  - name: Install Visual Studio Code
+    ansible.builtin.command: '{{ ansible_user_dir }}/.local/apps/VSCode-linux-x64/update.sh'
+    register: install_vsc
+    changed_when: install_vsc.rc != 0
 
-    - name: Install Visual Studio Code Extensions
-      ansible.builtin.command: code --force --install-extension "{{ item }}"
-      register: ext_install
-      changed_when: ext_install.rc != 0
-      with_items:
-        - Angular.ng-template
-        - bilelmoussaoui.flatpak-vscode
-        - eamodio.gitlens
-        - golang.go
-        - llvm-vs-code-extensions.vscode-clangd
-        - mhutchie.git-graph
-        - ms-azuretools.vscode-docker
-        - ms-python.python
-        - ms-python.vscode-pylance
-        - ms-vscode-remote.remote-containers
-        - ms-vscode-remote.remote-ssh
-        - ms-vscode-remote.remote-ssh-edit
-        - ms-vscode.cmake-tools
-        - ms-vscode.cpptools
-        - ms-vscode.vscode-typescript-next
-        - redhat.ansible
-        - redhat.vscode-yaml
-        - rust-lang.rust-analyzer
-        - twxs.cmakfill-labs.dependie
-        - usernamehw.errorlens
-        - vadimcn.vscode-lldb
-        - vsciot-vscode.vscode-arduino
-        - xaver.clang-format
-        - asvetliakov.vscode-neovim
+  - name: Install Visual Studio Code Extensions
+    ansible.builtin.command: code --force --install-extension "{{ item }}"
+    register: ext_install
+    ignore_errors: true
+    changed_when: ext_install.rc != 0
+    with_items:
+    - Angular.ng-template
+    - bilelmoussaoui.flatpak-vscode
+    - eamodio.gitlens
+    - golang.go
+    - llvm-vs-code-extensions.vscode-clangd
+    - mhutchie.git-graph
+    - ms-azuretools.vscode-docker
+    - ms-python.python
+    - ms-python.vscode-pylance
+    - ms-vscode-remote.remote-containers
+    - ms-vscode-remote.remote-ssh
+    - ms-vscode-remote.remote-ssh-edit
+    - ms-vscode.cmake-tools
+    - ms-vscode.cpptools
+    - ms-vscode.vscode-typescript-next
+    - redhat.ansible
+    - redhat.vscode-yaml
+    - rust-lang.rust-analyzer
+    - twxs.cmakfill-labs.dependie
+    - usernamehw.errorlens
+    - vadimcn.vscode-lldb
+    - vsciot-vscode.vscode-arduino
+    - xaver.clang-format
+    - asvetliakov.vscode-neovim
 
 - name: Install neovim configuration
-  when: 
-    - development_setup['categories']['editors']
+  when:
+  - development_setup['categories']['editors']
   block:
-    - name: Remove existing configuration
-      ansible.builtin.file: 
-        path: "{{ ansible_user_dir }}/.config/nvim"
-        state: absent
+  - name: Remove existing configuration
+    ansible.builtin.file:
+      path: '{{ ansible_user_dir }}/.config/nvim'
+      state: absent
 
-    - name: Add new configuration
-      ansible.builtin.git:
-        repo: https://github.com/nnishant776/init.lua
-        dest: "{{ ansible_user_dir }}/.config/nvim"
-        version: dev
-        force: true
-        update: true
+  - name: Add new configuration
+    ansible.builtin.git:
+      repo: https://github.com/nnishant776/init.lua
+      dest: '{{ ansible_user_dir }}/.config/nvim'
+      version: dev
+      force: true
+      update: true
 
 - name: Install development docker images
-  when: 
-    - development_setup['categories']['docker_images']
+  when:
+  - development_setup['categories']['docker_images']
   ansible.builtin.command: |
     podman pull {{ item }}
   register: install_build_runtime
   changed_when: install_build_runtime.rc != 0
   with_items:
-    - docker.io/golang:latest
-    - docker.io/rust:latest
-    - docker.io/ubuntu:latest
-    - docker.io/fedora:latest
+  - docker.io/golang:latest
+  - docker.io/rust:latest
+  - docker.io/ubuntu:latest
+  - docker.io/fedora:latest
 
 - name: Setup credentials
   when:
-    - development_config['categories']['credentials_config']
+  - development_setup['categories']['credentials_config']
   block:
-    - name: Configure GitHub credentials
-      when: credentials_config['github_token_file']
-      ansible.builtin.shell: |
-        cat {{ credentials_config['github_token_file'] }} | gh auth login -p https --with-token
+  - name: Configure GitHub credentials
+    when: credentials_config['github_token_file']
+    ansible.builtin.shell: |
+      cat {{ credentials_config['github_token_file'] }} | gh auth login -p https --with-token

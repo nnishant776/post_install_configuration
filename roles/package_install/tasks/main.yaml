@@ -1,27 +1,26 @@
----
 ############################# Import package list #############################
 
 - name: Import common package list
-  ansible.builtin.include_vars: "pkglist_common.yaml"
+  ansible.builtin.include_vars: pkglist_common.yaml
 
 - name: Import distro-specific package list
-  ansible.builtin.include_vars: "pkglist_{{ ansible_distribution }}.yaml"
+  ansible.builtin.include_vars: pkglist_{{ ansible_distribution }}.yaml
 
 - name: Import flatpak package list
-  ansible.builtin.include_vars: "pkglist_flatpak.yaml"
+  ansible.builtin.include_vars: pkglist_flatpak.yaml
 
 ######################## Install the selected packages ########################
 
 - name: Install common packages
   become: true
   ansible.builtin.package:
-    name: "{{ common_package_list }}"
+    name: '{{ common_package_list }}'
     state: present
 
 - name: Install system utilities
   become: true
-  when: 
-   - package_install['categories']['system_utils']
+  when:
+  - package_install['categories']['system_utils']
   ansible.builtin.shell: |
     if [ "{{ distro_package_list['system_utils']['shell'] }}" = "True" ]; then
       {{ distro_package_list['system_utils']['list'] | join(' ') }}
@@ -31,8 +30,8 @@
 
 - name: Install desktop environments
   become: true
-  when: 
-   - package_install['categories']['desktop_environments']
+  when:
+  - package_install['categories']['desktop_environments']
   ansible.builtin.shell: |
     if [ "{{ distro_package_list['desktop_environments']['shell'] }}" = "True" ]; then
       {{ distro_package_list['desktop_environments']['list'] | join(' ') }}
@@ -42,8 +41,8 @@
 
 - name: Install development tools
   become: true
-  when: 
-    - package_install['categories']['dev_tools']
+  when:
+  - package_install['categories']['dev_tools']
   ansible.builtin.shell: |
     if [ "{{ distro_package_list['dev_tools']['shell'] }}" = "True" ]; then
       {{ distro_package_list['dev_tools']['list'] | join(' ') }}
@@ -53,8 +52,8 @@
 
 - name: Install container runtimes
   become: true
-  when: 
-    - package_install['categories']['container_runtimes']
+  when:
+  - package_install['categories']['container_runtimes']
   ansible.builtin.shell: |
     if [ "{{ distro_package_list['container_runtimes']['shell'] }}" = "True" ]; then
       {{ distro_package_list['container_runtimes']['list'] | join(' ') }}
@@ -64,8 +63,8 @@
 
 - name: Install multimedia plugins
   become: true
-  when: 
-    - package_install['categories']['multimedia_plugins']
+  when:
+  - package_install['categories']['multimedia_plugins']
   ansible.builtin.shell: |
     if [ "{{ distro_package_list['multimedia_plugins']['shell'] }}" = "True" ]; then
       {{ distro_package_list['multimedia_plugins']['list'] | join(' ') }}
@@ -75,8 +74,8 @@
 
 - name: Install fonts
   become: true
-  when: 
-    - package_install['categories']['fonts']
+  when:
+  - package_install['categories']['fonts']
   ansible.builtin.shell: |
     if [ "{{ distro_package_list['fonts']['shell'] }}" = "True" ]; then
       {{ distro_package_list['fonts']['list'] | join(' ') }}
@@ -86,8 +85,8 @@
 
 - name: Install GUI applications
   become: true
-  when: 
-    - package_install['categories']['gui_apps']
+  when:
+  - package_install['categories']['gui_apps']
   ansible.builtin.shell: |
     if [ "{{ distro_package_list['gui_apps']['shell'] }}" = "True" ]; then
       {{ distro_package_list['gui_apps']['list'] | join(' ') }}
@@ -97,8 +96,8 @@
 
 - name: Install UI themes
   become: true
-  when: 
-    - package_install['categories']['themes']
+  when:
+  - package_install['categories']['themes']
   ansible.builtin.shell: |
     if [ "{{ distro_package_list['themes']['shell'] }}" = "True" ]; then
       {{ distro_package_list['themes']['list'] | join(' ') }}
@@ -108,8 +107,8 @@
 
 - name: Install compilers and SDKs
   become: true
-  when: 
-    - package_install['categories']['compilers_and_sdks']
+  when:
+  - package_install['categories']['compilers_and_sdks']
   ansible.builtin.shell: |
     if [ "{{ distro_package_list['compilers_and_sdks']['shell'] }}" = "True" ]; then
       {{ distro_package_list['compilers_and_sdks']['list'] | join(' ') }}
@@ -119,8 +118,8 @@
 
 - name: Install cluster management tools
   become: true
-  when: 
-    - package_install['categories']['cluster_tools']
+  when:
+  - package_install['categories']['cluster_tools']
   ansible.builtin.shell: |
     if [ "{{ distro_package_list['cluster_tools']['shell'] }}" = "True" ]; then
       {{ distro_package_list['cluster_tools']['list'] | join(' ') }}
@@ -130,29 +129,29 @@
 
 - name: Install flatpak packages
   block:
-    - name: Install flatpak multimedia plugins
-      when:
-        - package_install['categories']['multimedia_plugins'] 
-      community.general.flatpak:
-        name: "{{ flatpak_package_list['multimedia_plugins']['list'] }}"
-        state: present
-        remote: flathub
-        method: system
+  - name: Install flatpak multimedia plugins
+    when:
+    - package_install['categories']['multimedia_plugins']
+    community.general.flatpak:
+      name: "{{ flatpak_package_list['multimedia_plugins']['list'] }}"
+      state: present
+      remote: flathub
+      method: system
 
-    - name: Install flatpak GUI applications
-      when:
-        - package_install['categories']['gui_apps'] 
-      community.general.flatpak:
-        name: "{{ flatpak_package_list['gui_apps']['list'] }}"
-        state: present
-        remote: flathub
-        method: system
+  - name: Install flatpak GUI applications
+    when:
+    - package_install['categories']['gui_apps']
+    community.general.flatpak:
+      name: "{{ flatpak_package_list['gui_apps']['list'] }}"
+      state: present
+      remote: flathub
+      method: system
 
-    - name: Install flatpak UI themes
-      when:
-        - package_install['categories']['themes'] 
-      community.general.flatpak:
-        name: "{{ flatpak_package_list['themes']['list'] }}"
-        state: present
-        remote: flathub
-        method: system
+  - name: Install flatpak UI themes
+    when:
+    - package_install['categories']['themes']
+    community.general.flatpak:
+      name: "{{ flatpak_package_list['themes']['list'] }}"
+      state: present
+      remote: flathub
+      method: system
