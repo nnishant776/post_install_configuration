@@ -1,4 +1,7 @@
 ---
+- name: Import credentials configuration
+  ansible.builtin.include_vars: "credentials_config.yaml"
+
 - name: Setup IDEs
   when: 
     - development_setup['categories']['ides']
@@ -77,3 +80,12 @@
     - docker.io/rust:latest
     - docker.io/ubuntu:latest
     - docker.io/fedora:latest
+
+- name: Setup credentials
+  when:
+    - development_config['categories']['credentials_config']
+  block:
+    - name: Configure GitHub credentials
+      when: credentials_config['github_token_file']
+      ansible.builtin.shell: |
+        cat {{ credentials_config['github_token_file'] }} | gh auth login -p https --with-token

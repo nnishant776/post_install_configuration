@@ -35,6 +35,7 @@ development_setup:
     editors: false
     sdks_and_runtimes: false
     docker_images: false
+    credentials_config: false
 
 backup_list:
   # - src: "{{ ansible_user_dir }}/backup.tar.gz"
