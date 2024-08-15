@@ -2,8 +2,6 @@
 
 This project aims to provide a generic and distro-agnostic post installation system configuration mechanism via [Ansible](https://www.ansible.com)
 
-As of now the, script provides a very basic installation configuration for Arch family of distros.
-
-Support for more distros as well as more packages is planned.
+As of now the, this playbook provides a very basic installation configuration for Redhat, Debian and Arch family of distros. Only the Redhat family distros (Fedora) are tested completely.
 
 Contributions and suggestions are welcome.
