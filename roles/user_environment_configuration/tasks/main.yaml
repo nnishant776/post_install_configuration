@@ -1,9 +1,6 @@
 ---
-- name: Configure vim/neovim
-  ansible.builtin.command: |
-    git clone --recursive https://github.com/nnishant776/init.lua ~/.config/nvim -b dev
-
 - name: Install custom utilities
+  when: userenv_config['categories']['applications']
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -13,6 +10,13 @@
     - { src: git_starter, dest: "{{ ansible_user_dir }}/.local/bin/" }
     - { src: mkfile, dest: "{{ ansible_user_dir }}/.local/bin/" }
     - { src: renamer, dest: "{{ ansible_user_dir }}/.local/bin/" }
+
+- name: Configure desktop
+  when: userenv_config['categories']['desktop']
+  block:
+    - name: Load dconf settings
+      ansible.builtin.shell: |
+        cat dconf.conf | dconf load /
 
 - name: Restore backup
   ansible.builtin.unarchive:

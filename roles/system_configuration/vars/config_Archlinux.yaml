@@ -1,0 +1,5 @@
+distro_specific_repositories:
+  shell: true
+  install_command:
+  list:
+    - echo "No repositories to add"

@@ -1,0 +1,132 @@
+---
+distro_package_list:
+  # System-Utility packages
+  system_utils:
+    shell: false
+    install_command: apt -y install --fix-broken
+    list:
+      - sshfs
+      - openssh-server
+      - python3-pip
+      - p7zip-full
+      - lm-sensors
+      - ibus-table-code
+      - iucode-tool
+      - intltool
+
+  # GUI Tools
+  gui_apps:
+    shell: false
+    install_command: apt -y install --fix-broken
+    list:
+      - gnome-shell-extensions
+      - gnome-tweaks
+      - file-roller
+      - blueman
+      - d-feet
+      - gnome-shell-extension-appindicator
+      - dconf-editor
+      - celluloid
+
+  # Themes
+  themes:
+    shell: false
+    install_command: apt -y install --fix-broken
+    list:
+      - breeze-cursor-theme
+    # - adw-gtk3-theme
+
+  # Desktop environments
+  desktop_environments:
+    shell: false
+    install_command: apt -y install --fix-broken
+    list:
+      - vanilla-gnome-desktop
+
+  # Developer Tools
+  dev_tools:
+    shell: false
+    install_command: apt -y install --fix-broken
+    list:
+      - gh
+      - git
+      - gitk
+
+  # Programming Language Compilers and Runtimes
+  compilers_and_sdks:
+    shell: false
+    install_command: apt -y install --fix-broken
+    list:
+      - gcc
+      - clang
+      - gdb
+      - lldb
+      - lld
+      - llvm
+      - build-essential
+      - golang
+      - default-jre
+      - nodejs
+
+  # Container Management
+  container_runtimes:
+    shell: false
+    install_command: apt -y install --fix-broken
+    list:
+      - docker.io
+      - podman
+
+  # Multimedia packages
+  multimedia_plugins:
+    shell: false
+    install_command: apt -y install --fix-broken
+    list:
+      - ffmpeg
+      - dav1d
+      - gstreamer1.0-libav
+      - gstreamer1.0-plugins-base
+      - gstreamer1.0-plugins-good
+      - gstreamer1.0-plugins-bad
+      - gstreamer1.0-plugins-ugly
+      - gstreamer1.0-vaapi
+      - x264
+      - x265
+
+  # Font packages
+  fonts:
+    shell: false
+    install_command: apt -y install --fix-broken
+    list:
+      - fonts-firacode
+      - fonts-dejavu
+      - fonts-noto
+      - fonts-liberation
+      - fonts-liberation2
+
+  # TODO: Remove duplication
+  # Cluster creation and management tools
+  cluster_tools:
+    shell: true
+    install_command:
+    list:
+      - |
+        remote_version=$(echo "$(gh api https://api.github.com/repos/k3d-io/k3d/releases/latest | jq -r '.tag_name')")
+        if command -v /usr/local/bin/k3d 2>&1 > /dev/null; then
+          installed_version=$(k3d version | cut -d ' ' -f 3 | head -n 1)
+          if [ "$remote_version" = "$installed_version" ]; then
+            exit 0
+          fi
+        fi
+        curl -G -L -o /usr/local/bin/k3d https://github.com/k3d-io/k3d/releases/download/$remote_version/k3d-linux-$(uname -m | sed 's/x86_/amd/g')
+        chmod 0755 /usr/local/bin/k3d
+
+      - |
+        remote_version=$(curl -G -L -s https://dl.k8s.io/release/stable.txt)
+        if command -v /usr/local/bin/kubectl 2>&1 > /dev/null; then
+          installed_version=$(kubectl version 2>/dev/null | head -n 1 | cut -d ':' -f 2 | sed 's/\s\+//g')
+          if [ "$remote_version" = "$installed_version" ]; then
+            exit 0
+          fi
+        fi
+        curl -G -L -o /usr/local/bin/kubectl https://dl.k8s.io/release/$remote_version/bin/linux/$(uname -m | sed 's/x86_/amd/g')/kubectl
+        chmod 0755 /usr/local/bin/kubectl

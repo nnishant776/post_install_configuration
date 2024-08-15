@@ -19,6 +19,7 @@
         name: package_install
         apply:
           tags: package_install
+      when: package_install['enabled']
 
     - name: System configuration
       tags: system_config
@@ -26,6 +27,7 @@
         name: system_configuration
         apply:
           tags: system_config
+      when: system_config['enabled']
 
     - name: User environment configuration
       tags: userenv_config
@@ -33,6 +35,7 @@
         name: user_environment_configuration
         apply:
           tags: userenv_config
+      when: userenv_config['enabled']
 
     - name: Development Setup
       tags: dev_setup
@@ -40,3 +43,4 @@
         name: development_setup
         apply:
           tags: dev_setup
+      when: development_setup['enabled']
