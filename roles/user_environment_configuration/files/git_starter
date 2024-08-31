@@ -298,16 +298,6 @@ main() {
         configure_user_email
     fi
 
-    # Configure difftool
-    if [ ! -z "$difftool" ];then
-        configure_difftool_params
-    fi
-
-    # Configure mergetool
-    if [ ! -z "$mergetool" ];then
-        configure_mergetool_params
-    fi
-
     # Configure global default branch name
     if [ ! -z $global_default_branch ];then
         log "\n-> Configuring default branch name as $global_default_branch"
@@ -329,6 +319,16 @@ main() {
 
     # Configure git aliases
     configure_git_aliases
+
+    # Configure difftool
+    if [ ! -z "$difftool" ];then
+        configure_difftool_params
+    fi
+
+    # Configure mergetool
+    if [ ! -z "$mergetool" ];then
+        configure_mergetool_params
+    fi
 }
 
 main "$@"
