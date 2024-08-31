@@ -1,40 +1,40 @@
 system_config:
-  enabled: true
+  enabled: false
   categories:
-    os: true
-    system_services: true
-    software_repositories: true
+    os: false
+    system_services: false
+    software_repositories: false
 
 package_install:
-  enabled: true
+  enabled: false
   categories:
-    system_utils: true
-    dev_tools: true
-    container_runtimes: true
-    cluster_tools: true
-    multimedia_plugins: true
-    fonts: true
-    gui_apps: true
-    themes: true
-    desktop_environments: true
-    compilers_and_sdks: true
+    system_utils: false
+    dev_tools: false
+    container_runtimes: false
+    cluster_tools: false
+    multimedia_plugins: false
+    fonts: false
+    gui_apps: false
+    themes: false
+    desktop_environments: false
+    compilers_and_sdks: false
 
 userenv_config:
-  enabled: true
+  enabled: false
   categories:
-    applications: true
-    user_services: true
-    desktop: true
+    applications: false
+    user_services: false
+    desktop: false
 
 development_setup:
   enabled: true
   categories:
-    tools: true
-    ides: true
-    editors: true
-    sdks_and_runtimes: true
+    tools: false
+    ides: false
+    editors: false
+    sdks_and_runtimes: false
     docker_images: true
-    credentials_config: true
+    credentials_config: false
 
 backup_list:
   # - src: "{{ ansible_user_dir }}/backup.tar.gz"
