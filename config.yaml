@@ -24,9 +24,8 @@ package_install:
 userenv_config:
   enabled: false
   categories:
-    applications: false
-    user_services: false
     desktop: false
+    dotfiles: false
 
 development_setup:
   enabled: false
@@ -37,7 +36,3 @@ development_setup:
     sdks_and_runtimes: false
     docker_images: false
     credentials_config: false
-
-backup_list:
-  # - src: "{{ ansible_user_dir }}/backup.tar.gz"
-  #   dest: "{{ ansible_user_dir }}"

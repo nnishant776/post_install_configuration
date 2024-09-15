@@ -1,14 +1,11 @@
-- name: Install custom utilities
-  when: userenv_config['categories']['applications']
+- name: Load user dotfiles
+  when: userenv_config['categories']['dotfiles']
   ansible.builtin.copy:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
     mode: '0755'
   with_items:
-  - {src: dirsize, dest: '{{ ansible_user_dir }}/.local/bin/'}
-  - {src: git_starter, dest: '{{ ansible_user_dir }}/.local/bin/'}
-  - {src: mkfile, dest: '{{ ansible_user_dir }}/.local/bin/'}
-  - {src: renamer, dest: '{{ ansible_user_dir }}/.local/bin/'}
+  - {src: dotfiles/, dest: '{{ ansible_user_dir }}/'}
 
 - name: Configure desktop
   when: userenv_config['categories']['desktop']
@@ -16,12 +13,3 @@
   - name: Load dconf settings
     ansible.builtin.shell: |
       cat dconf.conf | dconf load /
-
-- name: Restore backup
-  ansible.builtin.unarchive:
-    src: '{{ item.src }}'
-    owner: '{{ ansible_effective_user_id }}'
-    group: '{{ ansible_effective_group_id }}'
-    dest: '{{ item.dest }}'
-  with_items: '{{ backup_list }}'
-  when: backup_list
