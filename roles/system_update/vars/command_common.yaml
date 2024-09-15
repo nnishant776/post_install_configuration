@@ -1,0 +1,4 @@
+common_update_command: |
+  if command -v flatpak 2>&1 > /dev/null; then
+    flatpak update -y
+  fi

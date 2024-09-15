@@ -1,0 +1,2 @@
+distro_update_command: |
+  dnf -y update

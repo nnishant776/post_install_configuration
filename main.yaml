@@ -12,6 +12,13 @@
       dest: /tmp/dump.json
       mode: '0644'
 
+  - name: System update
+    tags: system_update
+    ansible.builtin.include_role:
+      name: system_update
+      apply:
+        tags: system_update
+
   - name: Repository configuration
     tags: respository_configuration
     ansible.builtin.include_role:

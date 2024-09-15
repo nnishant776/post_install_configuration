@@ -1,0 +1,15 @@
+- name: Import common update command
+  ansible.builtin.include_vars: command_common.yaml
+
+- name: Import distro-specific update command
+  ansible.builtin.include_vars: command_{{ ansible_distribution }}.yaml
+
+- name: Run common update tasks
+  become: true
+  ansible.builtin.shell: |
+    {{ common_update_command }}
+
+- name: Run distro-specific update tasks
+  become: true
+  ansible.builtin.shell: |
+    {{ distro_update_command }}
