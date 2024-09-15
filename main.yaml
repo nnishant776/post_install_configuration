@@ -12,6 +12,14 @@
       dest: /tmp/dump.json
       mode: '0644'
 
+  - name: Repository configuration
+    tags: respository_configuration
+    ansible.builtin.include_role:
+      name: respository_configuration
+      apply:
+        tags: respository_configuration
+    when: repository_configuration['enabled']
+
   - name: Package install
     tags: package_install
     ansible.builtin.include_role:

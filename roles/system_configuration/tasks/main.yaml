@@ -1,9 +1,3 @@
-- name: Import common repository configuration
-  ansible.builtin.include_vars: config_common.yaml
-
-- name: Import distro-specific repository configuration
-  ansible.builtin.include_vars: config_{{ ansible_distribution }}.yaml
-
 - name: Configure OS settings
   when: system_config['categories']['os']
   block:
@@ -39,24 +33,3 @@
       usermod --add-subgids 200000-265535 {{ ansible_user_id }}
     register: subugid_cfg
     changed_when: subugid_cfg.rc != 0
-
-- name: Configure software repositories
-  when: system_config['categories']['software_repositories']
-  block:
-  - name: Enable common external repositories
-    become: true
-    ansible.builtin.shell: |
-      if [ "{{ common_repositories['shell'] }}" = "True" ]; then
-        {{ common_repositories['list'] | join(' ') }}
-      else
-        {{ common_repositories['install_command'] }} {{ common_repositories['list'] | join(' ') }}
-      fi
-
-  - name: Enabel distro-specific repositories
-    become: true
-    ansible.builtin.shell: |
-      if [ "{{ distro_specific_repositories['shell'] }}" = "True" ]; then
-        {{ distro_specific_repositories['list'] | join(' ') }}
-      else
-        {{ distro_specific_repositories['install_command'] }} {{ distro_specific_repositories['list'] | join(' ') }}
-      fi

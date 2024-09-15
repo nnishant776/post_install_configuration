@@ -3,7 +3,9 @@ system_config:
   categories:
     os: false
     system_services: false
-    software_repositories: false
+
+repository_configuration:
+  enabled: false
 
 package_install:
   enabled: false
