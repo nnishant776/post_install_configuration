@@ -41,6 +41,10 @@ distro_package_list:
     install_command: apt -y install --fix-broken
     list:
     - vanilla-gnome-desktop
+    - xdg-desktop-portal-wlr
+    - wl-mirror
+    - wlr-randr
+    - wdisplays
 
   # Developer Tools
   dev_tools:
