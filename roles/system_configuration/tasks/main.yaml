@@ -1,8 +1,8 @@
 - name: Configure OS settings
+  become: true
   when: system_config['categories']['os']
   block:
   - name: Configure sysctl params
-    become: true
     ansible.posix.sysctl:
       name: '{{ item.name }}'
       value: '{{ item.value }}'
@@ -16,8 +16,6 @@
     - {name: kernel.nmi_watchdog, value: 0}
 
   - name: Remove subuid/subgid configuration for current user if present
-    become: true
-    when: system_config['categories']['os']
     ansible.builtin.lineinfile:
       regex: .*{{ ansible_user_id }}.*
       state: absent
@@ -27,7 +25,6 @@
     - /etc/subgid
 
   - name: Add new subuid/subgid configuration for current user
-    become: true
     ansible.builtin.shell: |
       usermod --add-subuids 200000-265535 {{ ansible_user_id }}
       usermod --add-subgids 200000-265535 {{ ansible_user_id }}
