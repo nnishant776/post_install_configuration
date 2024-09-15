@@ -27,13 +27,13 @@ userenv_config:
     desktop: false
 
 development_setup:
-  enabled: true
+  enabled: false
   categories:
     tools: false
     ides: false
     editors: false
     sdks_and_runtimes: false
-    docker_images: true
+    docker_images: false
     credentials_config: false
 
 backup_list:
