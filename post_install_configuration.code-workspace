@@ -1,0 +1,29 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "files.insertFinalNewline": true,
+        "files.trimFinalNewlines": true,
+        "files.trimTrailingWhitespace": true,
+        "editor.formatOnPaste": false,
+        "editor.formatOnSave": false,
+        "editor.insertSpaces": true,
+        "editor.renderWhitespace": "none",
+        "editor.renderLineHighlight": "all",
+        "editor.rulers": [
+            9999
+        ],
+        "editor.tabSize": 4,
+        "[yaml]": {
+            "editor.tabSize": 2,
+            "editor.guides.indentation": true
+        },
+        "[markdown]": {
+            "editor.tabSize": 2
+        },
+        "ansible.python.interpreterPath": "/usr/bin/python3"
+    }
+}
