@@ -70,7 +70,6 @@ distro_package_list:
     install_command: pacman -Syu
     list:
     - github-cli
-    - git
 
   # Programming Language Compilers and Runtimes
   compilers_and_sdks:

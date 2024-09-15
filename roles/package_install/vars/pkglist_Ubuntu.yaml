@@ -48,7 +48,6 @@ distro_package_list:
     install_command: apt -y install --fix-broken
     list:
     - gh
-    - git
     - gitk
 
   # Programming Language Compilers and Runtimes
