@@ -3,21 +3,19 @@
   ansible.builtin.copy:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
+    force: true
+    directory_mode: '0755'
+    mode: 'preserve'
   with_items:
-  - {src: dotfiles/.profile, dest: '{{ ansible_user_dir }}/'}
-  - {src: dotfiles/.bashrc, dest: '{{ ansible_user_dir }}/'}
-  - {src: dotfiles/.local/, dest: '{{ ansible_user_dir }}/'}
-  - {src: dotfiles/.config/containers/, dest: '{{ ansible_user_dir }}/.config/'}
-  - {src: dotfiles/.config/helix/, dest: '{{ ansible_user_dir }}/.config/'}
-  - {src: dotfiles/.config/mpv/, dest: '{{ ansible_user_dir }}/.config/'}
-  - {src: dotfiles/.config/tmux/, dest: '{{ ansible_user_dir }}/.config/'}
+  - {src: dotfiles/, dest: '{{ ansible_user_dir }}/'}
+  - {src: dconf.conf, dest: '{{ ansible_user_dir }}/.config/dconf/'}
 
 - name: Configure desktop
   when: userenv_config['categories']['desktop']
   block:
   - name: Load dconf settings
     ansible.builtin.shell: |
-      cat dconf.conf | dconf load /
+      cat {{ ansible_user_dir }}/.config/dconf/dconf.conf | dconf load /
 
   - name: Load sway configuration
     ansible.builtin.copy:
