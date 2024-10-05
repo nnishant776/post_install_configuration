@@ -102,3 +102,10 @@
     - yamlfmt
     - black
     - isort
+
+- name: Update container engine configuration
+  community.general.ini_file:
+    path: '{{ ansible_user_dir }}/.config/containers/containers.conf'
+    section: engine
+    option: detach_keys
+    value: "'ctrl-@,ctrl-q'"
