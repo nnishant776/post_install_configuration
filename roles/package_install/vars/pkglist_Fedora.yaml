@@ -63,6 +63,7 @@ distro_package_list:
     - wl-mirror
     - wlr-randr
     - wdisplays
+    - wofi
 
   # Developer Tools
   dev_tools:
