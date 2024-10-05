@@ -1,5 +1,6 @@
-#!/usr/bin/env sh
+#!/usr/bin/env -S sh --posix
 
-. $(dirname ${BASH_SOURCE[0]})/../share/bash/functions/themes
+. $(dirname $0)/../share/bash/functions/themes
+. $(dirname $0)/../share/bash/functions/gui_desktop
 
 set_theme "$1"

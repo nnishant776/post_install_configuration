@@ -16,11 +16,3 @@
   - name: Load dconf settings
     ansible.builtin.shell: |
       cat {{ ansible_user_dir }}/.config/dconf/dconf.conf | dconf load /
-
-  - name: Load sway configuration
-    ansible.builtin.copy:
-      src: '{{ item.src }}'
-      dest: '{{ item.dest }}'
-    with_items:
-    - {src: dotfiles/.config/sway/, dest: '{{ ansible_user_dir }}/.config/'}
-    - {src: dotfiles/.config/waybar/, dest: '{{ ansible_user_dir }}/.config/'}
