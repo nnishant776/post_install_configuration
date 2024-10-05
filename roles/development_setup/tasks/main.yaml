@@ -89,3 +89,16 @@
     when: credentials_config['github_token_file']
     ansible.builtin.shell: |
       cat {{ credentials_config['github_token_file'] }} | gh auth login -p https --with-token
+
+- name: Install common python libraries and tools
+  when:
+  - development_setup['categories']['tools']
+  ansible.builtin.command: |
+    python3 -m pip install {{ item }}
+  with_items:
+    - meson
+    - ninja
+    - yamllint
+    - yamlfmt
+    - black
+    - isort
