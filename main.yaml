@@ -20,11 +20,11 @@
         tags: system_update
 
   - name: Repository configuration
-    tags: respository_configuration
+    tags: repository_configuration
     ansible.builtin.include_role:
-      name: respository_configuration
+      name: repository_configuration
       apply:
-        tags: respository_configuration
+        tags: repository_configuration
     when: repository_configuration['enabled']
 
   - name: Package install
