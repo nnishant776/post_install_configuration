@@ -5,11 +5,13 @@
         }
     ],
     "settings": {
+        "files.eol": "\n",
+        "files.encoding": "utf8",
         "files.insertFinalNewline": true,
         "files.trimFinalNewlines": true,
         "files.trimTrailingWhitespace": true,
         "editor.formatOnPaste": false,
-        "editor.formatOnSave": false,
+        "editor.formatOnSave": true,
         "editor.insertSpaces": true,
         "editor.renderWhitespace": "none",
         "editor.renderLineHighlight": "all",
