@@ -58,3 +58,11 @@
       apply:
         tags: dev_setup
     when: development_setup['enabled']
+
+  - name: Raspberry-pi configuration
+    when: network_configuration['enabled']
+    tags: network_configuration
+    ansible.builtin.include_role:
+      name: network_configuration
+      apply:
+        tags: network_configuration

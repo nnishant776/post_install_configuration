@@ -1,0 +1,114 @@
+# - name: Import credentials configuration
+#   ansible.builtin.include_vars: credentials_config.yaml
+
+- name: Setup hostapd
+  become: true
+  vars:
+    config_dir: etc/hostapd
+    service_dir: etc/systemd/system
+    network_config_dir: etc/systemd/network
+  when:
+  - network_configuration['enabled'] == True
+  - network_configuration['ap_config']['use_hostapd'] == True
+  block:
+  - name: Install hostpad
+    ansible.builtin.package:
+      name: hostapd
+      state: present
+
+  - name: Update hostapd configuration
+    ansible.builtin.shell: |
+      mkdir -p {{ config_dir }}
+      printf "
+      ctrl_interface=/var/run/hostapd
+      ctrl_interface_group=0
+      macaddr_acl=0
+      auth_algs=1
+      ignore_broadcast_ssid=0
+      wpa=2
+      wpa_key_mgmt=WPA-PSK
+      wpa_pairwise=CCMP
+      rsn_pairwise=CCMP
+      driver=nl80211
+      interface={{ network_configuration['ap_config']['wireless_config']['interface_name'] }}
+      ssid={{ network_configuration['ap_config']['ssid'] }}
+      wpa_passphrase={{ network_configuration['ap_config']['passphrase']}}
+      hw_mode={{ network_configuration['ap_config']['wireless_config']['band'] }}
+      channel={{ network_configuration['ap_config']['wireless_config']['channel'] }}
+      country_code={{ network_configuration['ap_config']['wireless_config']['country_code'] }}
+      ieee80211d=1
+      ieee80211h=1
+      logger_syslog=1
+      logger_syslog_level=0
+      okc=1
+      ieee80211n=1
+      ieee80211ac=1
+      wmm_enabled=1
+      max_num_sta=10
+      ht_capab={{ network_configuration['ap_config']['wireless_config']['capabilities']['ht'] }}
+      vht_capab={{ network_configuration['ap_config']['wireless_config']['capabilities']['vht'] }}
+      " | sed 's|^\s\+||g' | sed 1d > {{ config_dir }}/hostapd.conf
+
+      if [ {{ network_configuration['ap_config']['wireless_config']['width'] }} = "80" ]; then
+        printf "vht_oper_chwidth=1\n" >> {{ config_dir }}/hostapd.conf
+        printf "vht_oper_centr_freq_seg0_idx={{ network_configuration['ap_config']['wireless_config']['channel'] | int + 6 }}\n" >> {{ config_dir }}/hostapd.conf
+      fi
+
+  - name: Configure hostapd service
+    ansible.builtin.shell: |
+      systemctl unmask hostapd
+      mkdir -p {{ service_dir }}
+      printf '
+      [Unit]
+      Description=Access point and authentication server for Wi-Fi and Ethernet
+      Documentation=man:hostapd(8)
+      BindsTo=sys-subsystem-net-devices-{{ network_configuration['ap_config']['wireless_config']['interface_name'] }}.device
+      After=sys-subsystem-net-devices-{{ network_configuration['ap_config']['wireless_config']['interface_name'] }}.device
+      ConditionFileNotEmpty={{ config_dir }}/hostapd.conf
+
+      [Service]
+      Type=forking
+      PIDFile=/run/hostapd.pid
+      Restart=on-failure
+      RestartSec=2
+      Environment=DAEMON_CONF={{ config_dir }}/hostapd.conf
+      EnvironmentFile=-/etc/default/hostapd
+      ExecStart=/usr/sbin/hostapd -B -d -P /run/hostapd.pid $DAEMON_OPTS ${DAEMON_CONF}
+
+      [Install]
+      WantedBy=multi-user.target
+      ' | sed 's|^\s\+||g' | sed 1d > {{ service_dir }}/hostapd.service
+
+  - name: Configure network device
+    ansible.builtin.shell: |
+      mkdir -p {{ network_config_dir }}
+      printf "
+      [Match]
+      Name={{ network_configuration['ap_config']['wireless_config']['interface_name'] }}
+
+      [Network]
+      DHCPServer=yes
+      Address={{ network_configuration['ap_config']['wireless_config']['ip_address'] }}
+      IPMasquerade=both
+
+      [DHCPServer]
+      PoolOffset=100
+      PoolSize=32
+      EmitDNS=yes
+      DNS=8.8.8.8
+      " | sed 's|^\s\+||g' | sed 1d > {{ network_config_dir }}/10-{{ network_configuration['ap_config']['wireless_config']['interface_name'] }}.network
+
+- name: Setup NetworkManager
+  when:
+  - network_configuration['enabled'] == True
+  - network_configuration['ap_config']['use_hostapd'] == False
+  community.general.nmcli:
+    type: wifi
+    conn_name:
+    ifname: "{{ network_configuration['ap_config']['wireless_config']['interface_name'] }}"
+    ssid: "{{ network_configuration['ap_config']['ssid'] }}"
+    wifi:
+      band: "{{ network_configuration['ap_config']['wireless_config']['band'] }}"
+      mode: ap
+    autoconnect: true
+    state: present
