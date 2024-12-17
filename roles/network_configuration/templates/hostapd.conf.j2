@@ -1,0 +1,31 @@
+ctrl_interface=/var/run/hostapd
+ctrl_interface_group=0
+macaddr_acl=0
+auth_algs=1
+ignore_broadcast_ssid=0
+wpa=2
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=CCMP
+rsn_pairwise=CCMP
+driver=nl80211
+interface={{ network_configuration['ap_config']['wireless_config']['interface_name'] }}
+ssid={{ network_configuration['ap_config']['ssid'] }}
+wpa_passphrase={{ network_configuration['ap_config']['passphrase']}}
+hw_mode={{ network_configuration['ap_config']['wireless_config']['band'] }}
+channel={{ network_configuration['ap_config']['wireless_config']['channel'] }}
+country_code={{ network_configuration['ap_config']['wireless_config']['country_code'] }}
+ieee80211d=1
+ieee80211h=1
+logger_syslog=1
+logger_syslog_level=0
+okc=1
+ieee80211n=1
+ieee80211ac=1
+wmm_enabled=1
+max_num_sta=10
+ht_capab={{ network_configuration['ap_config']['wireless_config']['capabilities']['ht'] }}
+vht_capab={{ network_configuration['ap_config']['wireless_config']['capabilities']['vht'] }}
+{% if network_configuration['ap_config']['wireless_config']['width'] == 80 %}
+vht_oper_chwidth=1
+vht_oper_centr_freq_seg0_idx={{ network_configuration['ap_config']['wireless_config']['channel'] | int + 6 }}
+{% endif %}

@@ -1,102 +1,63 @@
-# - name: Import credentials configuration
-#   ansible.builtin.include_vars: credentials_config.yaml
-
 - name: Setup hostapd
   become: true
   vars:
-    config_dir: etc/hostapd
-    service_dir: etc/systemd/system
-    network_config_dir: etc/systemd/network
+    root_dir:
   when:
   - network_configuration['enabled'] == True
   - network_configuration['ap_config']['use_hostapd'] == True
   block:
   - name: Install hostpad
     ansible.builtin.package:
-      name: hostapd
+      name:
+        - hostapd
+        - systemd-networkd
       state: present
 
-  - name: Update hostapd configuration
+  - name: Setup config directories
     ansible.builtin.shell: |
-      mkdir -p {{ config_dir }}
-      printf "
-      ctrl_interface=/var/run/hostapd
-      ctrl_interface_group=0
-      macaddr_acl=0
-      auth_algs=1
-      ignore_broadcast_ssid=0
-      wpa=2
-      wpa_key_mgmt=WPA-PSK
-      wpa_pairwise=CCMP
-      rsn_pairwise=CCMP
-      driver=nl80211
-      interface={{ network_configuration['ap_config']['wireless_config']['interface_name'] }}
-      ssid={{ network_configuration['ap_config']['ssid'] }}
-      wpa_passphrase={{ network_configuration['ap_config']['passphrase']}}
-      hw_mode={{ network_configuration['ap_config']['wireless_config']['band'] }}
-      channel={{ network_configuration['ap_config']['wireless_config']['channel'] }}
-      country_code={{ network_configuration['ap_config']['wireless_config']['country_code'] }}
-      ieee80211d=1
-      ieee80211h=1
-      logger_syslog=1
-      logger_syslog_level=0
-      okc=1
-      ieee80211n=1
-      ieee80211ac=1
-      wmm_enabled=1
-      max_num_sta=10
-      ht_capab={{ network_configuration['ap_config']['wireless_config']['capabilities']['ht'] }}
-      vht_capab={{ network_configuration['ap_config']['wireless_config']['capabilities']['vht'] }}
-      " | sed 's|^\s\+||g' | sed 1d > {{ config_dir }}/hostapd.conf
+      mkdir -p {{ root_dir }}/etc/hostapd
+      mkdir -p {{ root_dir }}/etc/systemd/system
+      mkdir -p {{ root_dir }}/etc/systemd/system/hostapd.service.d
+      mkdir -p {{ root_dir }}/etc/systemd/network
+      mkdir -p {{ root_dir }}/etc/NetworkManager/conf.d
 
-      if [ {{ network_configuration['ap_config']['wireless_config']['width'] }} = "80" ]; then
-        printf "vht_oper_chwidth=1\n" >> {{ config_dir }}/hostapd.conf
-        printf "vht_oper_centr_freq_seg0_idx={{ network_configuration['ap_config']['wireless_config']['channel'] | int + 6 }}\n" >> {{ config_dir }}/hostapd.conf
-      fi
+  - name: Update hostapd application configuration
+    ansible.builtin.template:
+      src: hostapd.conf.j2
+      dest: "{{ root_dir }}/etc/hostapd/hostapd.conf"
 
   - name: Configure hostapd service
     ansible.builtin.shell: |
       systemctl unmask hostapd
-      mkdir -p {{ service_dir }}
-      printf '
-      [Unit]
-      Description=Access point and authentication server for Wi-Fi and Ethernet
-      Documentation=man:hostapd(8)
-      BindsTo=sys-subsystem-net-devices-{{ network_configuration['ap_config']['wireless_config']['interface_name'] }}.device
-      After=sys-subsystem-net-devices-{{ network_configuration['ap_config']['wireless_config']['interface_name'] }}.device
-      ConditionFileNotEmpty={{ config_dir }}/hostapd.conf
 
-      [Service]
-      Type=forking
-      PIDFile=/run/hostapd.pid
-      Restart=on-failure
-      RestartSec=2
-      Environment=DAEMON_CONF={{ config_dir }}/hostapd.conf
-      EnvironmentFile=-/etc/default/hostapd
-      ExecStart=/usr/sbin/hostapd -B -d -P /run/hostapd.pid $DAEMON_OPTS ${DAEMON_CONF}
+  - name: Update hostapd service configuration
+    ansible.builtin.template:
+      src: hostapd.service.j2
+      dest: "{{ root_dir }}/etc/systemd/system/hostapd.service"
 
-      [Install]
-      WantedBy=multi-user.target
-      ' | sed 's|^\s\+||g' | sed 1d > {{ service_dir }}/hostapd.service
+  - name: Update hostapd service override configuration
+    ansible.builtin.template:
+      src: hostapd.service.override.j2
+      dest: "{{ root_dir }}/etc/systemd/system/hostapd.service.d/override.conf"
 
   - name: Configure network device
+    ansible.builtin.template:
+      src: network.j2
+      dest: "{{ root_dir }}/etc/systemd/network/10-{{ network_configuration['ap_config']['wireless_config']['interface_name'] }}.network"
+
+  - name: Add interface to unmanaged list
+    ansible.builtin.copy:
+      dest: "{{ root_dir }}/etc/NetworkManager/conf.d/unmanaged.conf"
+      content: |
+        [keyfile]
+        unmanaged-devices=interface-name:{{ network_configuration['ap_config']['wireless_config']['interface_name'] }}
+
+  - name: Reload and enable services
     ansible.builtin.shell: |
-      mkdir -p {{ network_config_dir }}
-      printf "
-      [Match]
-      Name={{ network_configuration['ap_config']['wireless_config']['interface_name'] }}
-
-      [Network]
-      DHCPServer=yes
-      Address={{ network_configuration['ap_config']['wireless_config']['ip_address'] }}
-      IPMasquerade=both
-
-      [DHCPServer]
-      PoolOffset=100
-      PoolSize=32
-      EmitDNS=yes
-      DNS=8.8.8.8
-      " | sed 's|^\s\+||g' | sed 1d > {{ network_config_dir }}/10-{{ network_configuration['ap_config']['wireless_config']['interface_name'] }}.network
+      systemctl daemon-reload
+      systemctl enable --now systemd-networkd
+      systemctl enable --now hostapd.service
+      systemctl restart NetworkManager
 
 - name: Setup NetworkManager
   when:
