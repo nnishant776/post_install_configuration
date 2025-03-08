@@ -1,15 +1,10 @@
-- name: Import common update command
-  ansible.builtin.include_vars: command_common.yaml
-
-- name: Import distro-specific update command
-  ansible.builtin.include_vars: command_{{ ansible_distribution }}.yaml
-
-- name: Run common update tasks
+- name: Update flatpak packages
   become: true
-  ansible.builtin.shell: |
-    {{ common_update_command }}
+  ansible.builtin.command: /usr/bin/flatpak update -y
+  ignore_errors: true
 
-- name: Run distro-specific update tasks
+- name: Update system packages
   become: true
-  ansible.builtin.shell: |
-    {{ distro_update_command }}
+  ansible.builtin.package:
+    name: '*'
+    state: latest

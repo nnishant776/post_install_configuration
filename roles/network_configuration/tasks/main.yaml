@@ -14,12 +14,16 @@
       state: present
 
   - name: Setup config directories
-    ansible.builtin.shell: |
-      mkdir -p {{ root_dir }}/etc/hostapd
-      mkdir -p {{ root_dir }}/etc/systemd/system
-      mkdir -p {{ root_dir }}/etc/systemd/system/hostapd.service.d
-      mkdir -p {{ root_dir }}/etc/systemd/network
-      mkdir -p {{ root_dir }}/etc/NetworkManager/conf.d
+    ansible.builtin.file:
+      state: directory
+      mode: '0755'
+      path: "{{ item }}"
+    loop:
+      - "{{ root_dir }}/etc/hostapd"
+      - "{{ root_dir }}/etc/systemd/system"
+      - "{{ root_dir }}/etc/systemd/system/hostapd.service.d"
+      - "{{ root_dir }}/etc/systemd/network"
+      - "{{ root_dir }}/etc/NetworkManager/conf.d"
 
   - name: Update hostapd application configuration
     ansible.builtin.template:
@@ -27,8 +31,9 @@
       dest: "{{ root_dir }}/etc/hostapd/hostapd.conf"
 
   - name: Configure hostapd service
-    ansible.builtin.shell: |
-      systemctl unmask hostapd
+    ansible.builtin.systemd_service:
+      name: hostapd
+      masked: false
 
   - name: Update hostapd service configuration
     ansible.builtin.template:
@@ -52,12 +57,19 @@
         [keyfile]
         unmanaged-devices=interface-name:{{ network_configuration['ap_config']['wireless_config']['interface_name'] }}
 
-  - name: Reload and enable services
-    ansible.builtin.shell: |
-      systemctl daemon-reload
-      systemctl enable --now systemd-networkd
-      systemctl enable --now hostapd.service
-      systemctl restart NetworkManager
+  - name: Reload systemd daemon
+    ansible.builtin.systemd_service:
+      daemon_reload: true
+
+  - name: Reload systemd services
+    ansible.builtin.systemd_service:
+      name: {{ item.name }}
+      enabled: {{ item.enabled }}
+      masked: {{ item.masked }}
+      state: restarted
+    loop:
+      - { name: systemd-networkd, enabled: true, masked: false }
+      - { name: hostapd, enabled: true, masked: false }
 
 - name: Setup NetworkManager
   when:
