@@ -1,0 +1,107 @@
+- name: Install system packages
+  become: true
+  block:
+  - name: Install common packages
+    ansible.builtin.package:
+      name: '{{ common_package_list }}'
+      state: latest
+
+  - name: Install system utilities
+    when:
+    - package_install['categories']['system_utils']
+    ansible.builtin.package:
+      name: "{{ distro_package_list['system_utils'] }}"
+      state: latest
+
+  - name: Install desktop environments
+    when:
+    - package_install['categories']['desktop_environments']
+    ansible.builtin.package:
+      name: "{{ distro_package_list['desktop_environments'] }}"
+      state: latest
+
+  - name: Install development tools
+    when:
+    - package_install['categories']['dev_tools']
+    ansible.builtin.package:
+      name: "{{ distro_package_list['dev_tools'] }}"
+      state: latest
+
+
+  - name: Install container runtimes
+    become: true
+    when:
+    - package_install['categories']['container_runtimes']
+    ansible.builtin.package:
+      name: "{{ distro_package_list['container_runtimes'] }}"
+      state: latest
+      use: "{{ ansible_pkg_mgr }}"
+
+  - name: Install multimedia plugins
+    become: true
+    when:
+    - package_install['categories']['multimedia_plugins']
+    ansible.builtin.package:
+      name: "{{ distro_package_list['multimedia_plugins'] }}"
+      state: latest
+
+  - name: Install fonts
+    become: true
+    when:
+    - package_install['categories']['fonts']
+    ansible.builtin.package:
+      name: "{{ distro_package_list['fonts'] }}"
+      state: latest
+
+  - name: Install GUI applications
+    become: true
+    when:
+    - package_install['categories']['gui_apps']
+    ansible.builtin.package:
+      name: "{{ distro_package_list['gui_apps'] }}"
+      state: latest
+
+  - name: Install UI themes
+    become: true
+    when:
+    - package_install['categories']['themes']
+    ansible.builtin.package:
+      name: "{{ distro_package_list['themes'] }}"
+      state: latest
+
+  - name: Install compilers and SDKs
+    become: true
+    when:
+    - package_install['categories']['compilers_and_sdks']
+    ansible.builtin.package:
+      name: "{{ distro_package_list['compilers_and_sdks'] }}"
+      state: latest
+
+- name: Install flatpak packages
+  block:
+  - name: Install flatpak multimedia plugins
+    when:
+    - package_install['categories']['multimedia_plugins']
+    community.general.flatpak:
+      name: "{{ flatpak_package_list['multimedia_plugins'] }}"
+      state: present
+      remote: flathub
+      method: system
+
+  - name: Install flatpak GUI applications
+    when:
+    - package_install['categories']['gui_apps']
+    community.general.flatpak:
+      name: "{{ flatpak_package_list['gui_apps'] }}"
+      state: present
+      remote: flathub
+      method: system
+
+  - name: Install flatpak UI themes
+    when:
+    - package_install['categories']['themes']
+    community.general.flatpak:
+      name: "{{ flatpak_package_list['themes'] }}"
+      state: present
+      remote: flathub
+      method: system
