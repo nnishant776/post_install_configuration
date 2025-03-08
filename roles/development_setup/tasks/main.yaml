@@ -109,3 +109,32 @@
     section: engine
     option: detach_keys
     value: "'ctrl-@,ctrl-q'"
+
+- name: Install cluster tools
+  when:
+    - development_setup['categories']['cluster_tools']
+  become: true
+  block:
+  - name: Install k3d
+    ansible.builtin.shell: |
+      remote_version=$(echo "$(gh api https://api.github.com/repos/k3d-io/k3d/releases/latest | jq -r '.tag_name')")
+      if command -v /usr/local/bin/k3d 2>&1 > /dev/null; then
+        installed_version=$(k3d version | cut -d ' ' -f 3 | head -n 1)
+        if [ "$remote_version" = "$installed_version" ]; then
+          exit 0
+        fi
+      fi
+      curl -G -L -o /usr/local/bin/k3d https://github.com/k3d-io/k3d/releases/download/$remote_version/k3d-linux-$(uname -m | sed 's/x86_/amd/g')
+      chmod 0755 /usr/local/bin/k3d
+
+  - name: Install kubectl
+    ansible.builtin.shell: |
+      remote_version=$(curl -G -L -s https://dl.k8s.io/release/stable.txt)
+      if command -v /usr/local/bin/kubectl 2>&1 > /dev/null; then
+        installed_version=$(kubectl version 2>/dev/null | head -n 1 | cut -d ':' -f 2 | sed 's/\s\+//g')
+        if [ "$remote_version" = "$installed_version" ]; then
+          exit 0
+        fi
+      fi
+      curl -G -L -o /usr/local/bin/kubectl https://dl.k8s.io/release/$remote_version/bin/linux/$(uname -m | sed 's/x86_/amd/g')/kubectl
+      chmod 0755 /usr/local/bin/kubectl

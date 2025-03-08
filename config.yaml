@@ -13,7 +13,6 @@ package_install:
     system_utils: false
     dev_tools: false
     container_runtimes: false
-    cluster_tools: false
     multimedia_plugins: false
     fonts: false
     gui_apps: false
@@ -36,6 +35,7 @@ development_setup:
     sdks_and_runtimes: false
     docker_images: false
     credentials_config: false
+    cluster_tools: false
 
 network_configuration:
   enabled: false
